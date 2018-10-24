@@ -123,5 +123,8 @@
       }
     }
   },
-  "defaultProject": "hikingmaps-angular"
+  "defaultProject": "hikingmaps-angular",
+  "cli": {
+    "defaultCollection": "@nativescript/schematics"
+  }
 }
