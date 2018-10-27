@@ -7,7 +7,7 @@ import com.example.hikingmaps_spring.user.exceptions.*;
 public class UserService {
 	public void register(User user) throws PasswordTooShortException, UserExistsException, InvalidEmailException
 	{	
-		if(user.getPassword().length()<8||user.getPassword().length()>30)
+		if(user.getPassword().length()<8)
 			throw new PasswordTooShortException();
 		//TODO check for user existence
 		//TODO email address validation
