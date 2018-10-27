@@ -14,6 +14,6 @@ public class UserController
 	}
 	@PostMapping("/user/register")
 	public ResponseEntity<Void> register(@RequestBody User user)
-	{	return this.service.register(user);
+	{	return new ResponseEntity<Void>(this.service.register(user));
 	}
 }
