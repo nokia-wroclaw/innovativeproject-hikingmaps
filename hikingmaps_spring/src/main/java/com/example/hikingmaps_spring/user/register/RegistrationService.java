@@ -1,5 +1,6 @@
 package com.example.hikingmaps_spring.user.register;
 
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

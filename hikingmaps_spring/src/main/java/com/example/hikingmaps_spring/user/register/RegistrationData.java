@@ -1,5 +1,6 @@
 package com.example.hikingmaps_spring.user.register;
 
+
 public class RegistrationData
 {	private String login;
 	private String password;
