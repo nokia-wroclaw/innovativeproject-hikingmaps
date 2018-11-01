@@ -1,0 +1,14 @@
+<div>
+  <div class="hello">
+    <h1 *ngIf="hello">{{hello}}</h1>
+  </div>
+  <form (submit)='handleSubmit()'>
+    <div>
+      <label for="name">What's your name:</label>
+      <input autofocus autocomplete="off" type="text" name='name' id='name' required [(ngModel)]="name">
+    </div>
+    <div>
+      <input type='submit' value='Submit'>
+    </div>
+  </form>
+</div>
