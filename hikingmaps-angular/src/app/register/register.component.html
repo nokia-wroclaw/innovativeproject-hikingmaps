@@ -1,7 +1,7 @@
 <div class="content">
-  <h1>Register new account</h1>
   <div [ngClass]="'main'">
-    <form [ngClass]="'reg_form'" (submit)="null">
+    <h1>Register new account</h1>
+    <form [ngClass]="'reg_form'" (submit)="handleSubmit()">
       <label for="username">Username</label>
       <input autofocus autocomplete="off" type="text" name='username' id='username' required [(ngModel)]="username">
       <label for="email">Email</label>
