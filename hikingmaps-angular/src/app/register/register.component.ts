@@ -20,7 +20,13 @@ export class RegisterComponent implements OnInit {
   }
 
   handleSubmit() {
-    this.userService.addUser(this.username, this.email, this.password);
+    this.userService.addUser(this.username, this.email, this.password)
+      .subscribe(()=>{
+        // send message about succes and reroute
+      }, (error)=>{
+        // send message about error
+        console.error(error);        
+      });
   }
 
 }
