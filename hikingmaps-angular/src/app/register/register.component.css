@@ -10,7 +10,7 @@ body {
   margin-right: auto;
   margin-top: 20px;
 
-  width: 380px;
+  max-width: 400px;
   min-width: 300px;
   background-color: white;
   box-shadow: 4px 4px 0 1px #999;
