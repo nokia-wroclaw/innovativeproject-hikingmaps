@@ -3,6 +3,7 @@ package com.example.hikingmaps_spring.user;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
 
 @Entity
 public class User {
@@ -11,6 +12,7 @@ public class User {
 	private long id;
 	private String login;
 	private String password;
+	@Email
 	private String email;
 	public User()
 	{
