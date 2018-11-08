@@ -22,25 +22,21 @@ public class UserController
 	public ResponseEntity<Void> register(@RequestBody User user)
 	{	try
 		{	service.register(user);
-			//TODO if no exception thrown - save user to the database and return CREATED status
-			return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		}
 		catch(PasswordTooShortException e)
-		{
-			//TODO PasswordTooShort handling
-			return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+		{	return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
 		}
 		catch(InvalidEmailException e)
-		{
-			//TODO InvalidEmailException handling
-			return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+		{	return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
+		}
+		catch(MissingCredentialsException e)
+		{	return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
 		}
 		catch(UserExistsException e)
-		{
-			//TODO UserExistsException handling
-			return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+		{	return new ResponseEntity<Void>(HttpStatus.CONFLICT);
 		}
-		catch(Exception e)
+		catch(Exception e)//in case something unexpected happens
 		{	return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
