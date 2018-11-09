@@ -1,6 +1,10 @@
 package com.example.hikingmaps_spring.user.exceptions;
 
-public class PasswordTooShortException extends Exception {
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(code=HttpStatus.BAD_REQUEST, reason="Password too short")
+public class PasswordTooShortException extends RuntimeException {
 
 	/**
 	 * 
