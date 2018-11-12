@@ -12,7 +12,7 @@ export class UserService {
     private http: HttpClient
   ) {}
 
-  public addUser(username: string, email: string, password: string) {
-    return this.http.post(`${environment.apiUrl}/user/register`, {username, email, password});
+  public addUser(login: string, email: string, password: string) {
+    return this.http.post(`${environment.apiUrl}/user/register`, { login, email, password});
   }
 }
