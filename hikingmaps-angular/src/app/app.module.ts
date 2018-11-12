@@ -6,7 +6,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { HelloComponent } from './hello/hello.component';
 import { RegisterComponent } from './register/register.component';
-import {MapsComponent} from './maps/maps.component';
+import { AppRoutingModule } from './app-routing.module';
+import { MapsComponent } from './maps/maps.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import {MapsComponent} from './maps/maps.component';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,6 +1,7 @@
+import { environment } from './../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class UserService {
     private http: HttpClient
   ) {}
 
-  public addUser(username: string, email: string, password: string) {
-    return this.http.post(`${environment.apiUrl}/user/register`, {username, email, password});
+  public addUser(login: string, email: string, password: string) {
+    return this.http.post(`${environment.apiUrl}/user/register`, { login, email, password});
   }
 }

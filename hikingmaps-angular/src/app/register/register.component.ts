@@ -21,11 +21,11 @@ export class RegisterComponent implements OnInit {
 
   handleSubmit() {
     this.userService.addUser(this.username, this.email, this.password)
-      .subscribe(()=>{
+      .subscribe(() => {
         // send message about succes and reroute
-      }, (error)=>{
+      }, (error) => {
         // send message about error
-        console.error(error);        
+        console.error(error);
       });
   }
 

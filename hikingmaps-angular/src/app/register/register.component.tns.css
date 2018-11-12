@@ -1,1 +1,19 @@
-/* Add mobile styles for the component here.  */
+.title {
+  text-align: center;
+}
+
+
+Button {
+  display: inline-block;
+  padding: 15px 25px;
+  margin-top: 100px;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: white;
+  background-color: #008CBA;
+  border: none;
+  box-shadow: 0 2px #999;
+}
