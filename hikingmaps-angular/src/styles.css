@@ -15,3 +15,7 @@ html, body{
   padding: 0;
   border: 0;
 }
+
+html {
+  background-color: aliceblue;
+}
