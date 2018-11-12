@@ -7,12 +7,14 @@ import { AppComponent } from './app.component';
 import { HelloComponent } from './hello/hello.component';
 import { RegisterComponent } from './register/register.component';
 import { AppRoutingModule } from './app-routing.module';
+import { MapsComponent } from './maps/maps.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HelloComponent,
     RegisterComponent,
+    MapsComponent
   ],
   imports: [
     BrowserModule,
