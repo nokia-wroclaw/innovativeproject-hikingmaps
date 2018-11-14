@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -8,19 +8,27 @@ import { HelloComponent } from './hello/hello.component';
 import { RegisterComponent } from './register/register.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MapsComponent } from './maps/maps.component';
+import { AddComponent } from './announcement/add/add.component';
+import { CalendarModule} from 'primeng/calendar';
+import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {InputTextareaModule} from 'primeng/inputtextarea';
 
 @NgModule({
   declarations: [
     AppComponent,
     HelloComponent,
     RegisterComponent,
-    MapsComponent
+    MapsComponent,
+    AddComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    CalendarModule,
+    BrowserAnimationsModule,
+    InputTextareaModule
   ],
   providers: [],
   bootstrap: [AppComponent]

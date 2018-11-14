@@ -8,14 +8,15 @@ import { NativeScriptHttpClientModule } from 'nativescript-angular/http-client';
 import { NativeScriptFormsModule } from 'nativescript-angular/forms';
 import { RegisterComponent } from './register/register.component';
 import {MapsComponent} from './maps/maps.component';
-
+import {AddComponent} from './announcement/add/add.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HelloComponent,
     RegisterComponent,
-    MapsComponent
+    MapsComponent,
+    AddComponent
   ],
   imports: [
     NativeScriptModule,
