@@ -8,19 +8,23 @@ import { HelloComponent } from './hello/hello.component';
 import { RegisterComponent } from './register/register.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MapsComponent } from './maps/maps.component';
+import { BrowseAnnouncementComponent } from './browse-announcement/browse-announcement.component';
+import { DataViewModule } from 'primeng/dataview';
 
 @NgModule({
   declarations: [
     AppComponent,
     HelloComponent,
     RegisterComponent,
-    MapsComponent
+    MapsComponent,
+    BrowseAnnouncementComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    DataViewModule
   ],
   providers: [],
   bootstrap: [AppComponent]
