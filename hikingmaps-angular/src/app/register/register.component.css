@@ -29,7 +29,11 @@ body {
   width: 100%;
 }
 
-.reg_form input[type=text], input[type=password] {
+.bad_input {
+    border-color: red !important;
+}
+
+.reg_form input[type=text], input[type=password], input[type=email] {
     width: 100%;
     padding: 12px 20px;
     margin-bottom: 30px;
@@ -38,6 +42,7 @@ body {
     border-radius: 2px;
     box-sizing: border-box;
 }
+
 
 .reg_form button, input[type="button"], input[type="submit"] {
   display: inline-block;
