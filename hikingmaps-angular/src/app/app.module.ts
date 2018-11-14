@@ -8,7 +8,7 @@ import { HelloComponent } from './hello/hello.component';
 import { RegisterComponent } from './register/register.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MapsComponent } from './maps/maps.component';
-import { AddComponent } from './announcement/add/add.component';
+import { AddAnnouncementComponent } from './add-announcement/add-announcement.component';
 import { CalendarModule} from 'primeng/calendar';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {InputTextareaModule} from 'primeng/inputtextarea';
@@ -19,7 +19,7 @@ import {InputTextareaModule} from 'primeng/inputtextarea';
     HelloComponent,
     RegisterComponent,
     MapsComponent,
-    AddComponent
+    AddAnnouncementComponent
   ],
   imports: [
     BrowserModule,

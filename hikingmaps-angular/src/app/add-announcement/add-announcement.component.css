@@ -36,13 +36,13 @@ body {
 }
 
 .reg_form input[type=text], input[type=password] {
-    width: 100%;
-    padding: 12px 20px;
-    margin-bottom: 30px;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 2px;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 12px 20px;
+  margin-bottom: 30px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  box-sizing: border-box;
 }
 
 .reg_form button, input[type="button"], input[type="submit"] {

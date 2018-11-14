@@ -8,7 +8,7 @@ import { NativeScriptHttpClientModule } from 'nativescript-angular/http-client';
 import { NativeScriptFormsModule } from 'nativescript-angular/forms';
 import { RegisterComponent } from './register/register.component';
 import {MapsComponent} from './maps/maps.component';
-import {AddComponent} from './announcement/add/add.component';
+import {AddAnnouncementComponent} from './add-announcement/add-announcement.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +16,7 @@ import {AddComponent} from './announcement/add/add.component';
     HelloComponent,
     RegisterComponent,
     MapsComponent,
-    AddComponent
+    AddAnnouncementComponent
   ],
   imports: [
     NativeScriptModule,

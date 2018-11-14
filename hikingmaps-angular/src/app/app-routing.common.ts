@@ -1,6 +1,6 @@
 import { RegisterComponent } from './register/register.component';
 import { Routes } from '@angular/router';
-import {AddComponent} from './announcement/add/add.component';
+import {AddAnnouncementComponent} from './add-announcement/add-announcement.component';
 
 export const componentDeclarations: any[] = [
 ];
@@ -18,7 +18,7 @@ export const routes: Routes = [
   */
   {
     path: '',
-    component: AddComponent,
+    component: AddAnnouncementComponent,
     pathMatch: 'full',
   }
 ];

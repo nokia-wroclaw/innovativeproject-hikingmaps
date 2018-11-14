@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { AnnouncementService } from '../../announcement.service';
+import { AnnouncementService } from '../announcement.service';
 
 @Component({
   selector: 'app-add',
-  templateUrl: './add.component.html',
-  styleUrls: ['./add.component.css']
+  templateUrl: './add-announcement.component.html',
+  styleUrls: ['./add-announcement.component.css']
 })
-export class AddComponent implements OnInit {
+export class AddAnnouncementComponent implements OnInit {
 
   public name = '';
   public description = '';
@@ -17,7 +17,7 @@ export class AddComponent implements OnInit {
 
   constructor(
     private announcementService: AnnouncementService
-    ) { }
+  ) { }
 
   ngOnInit() {
   }
