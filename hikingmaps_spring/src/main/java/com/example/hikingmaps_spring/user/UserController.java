@@ -23,4 +23,8 @@ public class UserController {
 		service.register(user);
 		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
+	@PostMapping("/login")
+	public ResponseEntity<Void> login(@RequestBody User user) {
+		return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+	}
 }
