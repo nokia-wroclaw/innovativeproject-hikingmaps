@@ -23,8 +23,10 @@ public class ApiSecurity extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().antMatchers(HttpMethod.POST, SIGN_UP_URL, SIGN_IN_URL).permitAll()
-				.anyRequest().authenticated();
+		http.csrf().disable();
+		http.authorizeRequests().antMatchers(HttpMethod.POST, SIGN_UP_URL, SIGN_IN_URL).permitAll();
+		http.authorizeRequests().antMatchers(HttpMethod.OPTIONS, SIGN_UP_URL, SIGN_IN_URL).permitAll();
+		http.authorizeRequests().anyRequest().authenticated();
 	}
 
 	@Override
