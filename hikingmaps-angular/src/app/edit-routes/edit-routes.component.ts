@@ -12,13 +12,14 @@ export class EditRoutesComponent implements OnInit {
 
   constructor(private http: HttpClient) {}
 
+  private drawnItems;
+
   ngOnInit() {
-    let paths = [[]];
     const map = Leaflet.map('mapid').setView([49.6563, 18.8902], 14);
     Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-    const drawnItems = new Leaflet.FeatureGroup();
-    map.addLayer(drawnItems);
+    this.drawnItems = new Leaflet.FeatureGroup();
+    map.addLayer(this.drawnItems);
 
     const drawControl = new Leaflet.Control.Draw({
       draw: {
@@ -34,31 +35,24 @@ export class EditRoutesComponent implements OnInit {
         circlemarker: false
       },
       edit: {
-        featureGroup: drawnItems
+        featureGroup: this.drawnItems
       }
     });
 
     drawControl.addTo(map);
 
-    map.on('draw:created', function (e: any) {
+    map.on('draw:created', (e: any) => {
       const layer = e.layer;
+      this.drawnItems.addLayer(layer);
+    });
+  }
+
+  public getPaths() {
+    const paths = [[]];
+    this.drawnItems.eachLayer(function (layer: any) {
       paths.push(layer.getLatLngs());
-      drawnItems.addLayer(layer);
     });
-
-    map.on('draw:edited', function () {
-      paths = [[]];
-      drawnItems.eachLayer(function (layer: any) {
-        paths.push(layer.getLatLngs());
-      });
-    });
-
-    map.on('draw:deleted', function () {
-      paths = [[]];
-      drawnItems.eachLayer(function (layer: any) {
-        paths.push(layer.getLatLngs());
-      });
-    });
+    return paths;
   }
 }
 
