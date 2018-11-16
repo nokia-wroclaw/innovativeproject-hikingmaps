@@ -11,13 +11,15 @@ import { RegisterComponent } from './register/register.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MapsComponent } from './maps/maps.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EditRoutesComponent } from './edit-routes/edit-routes.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HelloComponent,
     RegisterComponent,
-    MapsComponent
+    MapsComponent,
+    EditRoutesComponent
   ],
   imports: [
     BrowserModule,

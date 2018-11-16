@@ -8,6 +8,7 @@ import { NativeScriptHttpClientModule } from 'nativescript-angular/http-client';
 import { NativeScriptFormsModule } from 'nativescript-angular/forms';
 import { RegisterComponent } from './register/register.component';
 import {MapsComponent} from './maps/maps.component';
+import { EditRoutesComponent } from './edit-routes/edit-routes.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import {MapsComponent} from './maps/maps.component';
     AppComponent,
     HelloComponent,
     RegisterComponent,
-    MapsComponent
+    MapsComponent,
+    EditRoutesComponent
   ],
   imports: [
     NativeScriptModule,
