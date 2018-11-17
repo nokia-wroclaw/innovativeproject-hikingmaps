@@ -29,7 +29,7 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'announcement/add',
+    path: 'add',
     component: AddAnnouncementComponent,
     pathMatch: 'full',
   }

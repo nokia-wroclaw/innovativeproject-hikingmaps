@@ -10,6 +10,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { DataViewModule } from 'primeng/dataview';
+import {MenubarModule} from 'primeng/menubar';
 
 import { AppComponent } from './app.component';
 import { HelloComponent } from './hello/hello.component';
@@ -42,7 +43,8 @@ import { AddAnnouncementComponent } from './add-announcement/add-announcement.co
     CalendarModule,
     BrowserAnimationsModule,
     InputTextareaModule,
-    ToastModule
+    ToastModule,
+    MenubarModule,
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]
