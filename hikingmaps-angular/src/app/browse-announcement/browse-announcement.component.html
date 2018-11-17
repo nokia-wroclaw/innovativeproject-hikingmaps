@@ -1,0 +1,21 @@
+<p-dataView #dv [value]="announcements">
+<ng-template let-announcment pTemplate="listItem">
+  <div class="ui-g" style="padding: 2em;border-bottom: 1px solid #d9d9d9">
+    <div class="ui-g-12 ui-md-8 car-details">
+      <div class="ui-g">
+        <div class="ui-g-2 ui-sm-6">Name: </div>
+        <div class="ui-g-10 ui-sm-6"><b>{{announcment.name}}</b></div>
+
+        <div class="ui-g-2 ui-sm-6">Date: </div>
+        <div class="ui-g-10 ui-sm-6"><b>{{announcment.date}}</b></div>
+
+        <div class="ui-g-2 ui-sm-6">Start: </div>
+        <div class="ui-g-10 ui-sm-6"><b>{{announcment.start}}</b></div>
+
+        <div class="ui-g-2 ui-sm-6">Destination: </div>
+        <div class="ui-g-10 ui-sm-6"><b>{{announcment.destination}}</b></div>
+
+      </div>
+    </div>
+  </div>
+</ng-template>

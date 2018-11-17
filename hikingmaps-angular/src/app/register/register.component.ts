@@ -1,4 +1,4 @@
-import { UserService } from './../user.service';
+import { UserService } from '../user.service';
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 

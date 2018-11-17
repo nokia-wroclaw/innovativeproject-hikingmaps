@@ -1,14 +1,21 @@
+import { MessageService } from 'primeng/api';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { NativeScriptModule } from 'nativescript-angular/nativescript.module';
-
+import { ToastModule } from 'primeng/toast';
 import { AppRoutingModule } from './app-routing.module.tns';
-import { AppComponent } from './app.component';
-import { HelloComponent } from './hello/hello.component';
 import { NativeScriptHttpClientModule } from 'nativescript-angular/http-client';
 import { NativeScriptFormsModule } from 'nativescript-angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DataViewModule } from 'primeng/dataview';
+
+import { AppComponent } from './app.component';
+import { HelloComponent } from './hello/hello.component';
 import { RegisterComponent } from './register/register.component';
-import {MapsComponent} from './maps/maps.component';
-import {LoginComponent} from './login/login.component';
+import { LoginComponent } from './login/login.component';
+import { MapsComponent } from './maps/maps.component';
+import { BrowseAnnouncementComponent } from './browse-announcement/browse-announcement.component';
+
+
 
 
 @NgModule({
@@ -17,15 +24,19 @@ import {LoginComponent} from './login/login.component';
     HelloComponent,
     RegisterComponent,
     MapsComponent,
-    LoginComponent
+    LoginComponent,
+    BrowseAnnouncementComponent
   ],
   imports: [
     NativeScriptModule,
     AppRoutingModule,
     NativeScriptHttpClientModule,
-    NativeScriptFormsModule
+    NativeScriptFormsModule,
+    BrowserAnimationsModule,
+    ToastModule,
+    DataViewModule
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent],
   schemas: [NO_ERRORS_SCHEMA]
 })

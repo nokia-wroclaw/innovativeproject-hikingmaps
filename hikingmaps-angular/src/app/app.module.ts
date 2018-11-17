@@ -7,12 +7,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { ToastModule } from 'primeng/toast';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
+import { DataViewModule } from 'primeng/dataview';
 
 import { AppComponent } from './app.component';
 import { HelloComponent } from './hello/hello.component';
 import { RegisterComponent } from './register/register.component';
 import { MapsComponent } from './maps/maps.component';
 import { LoginComponent } from './login/login.component';
+import { BrowseAnnouncementComponent } from './browse-announcement/browse-announcement.component';
+
 
 
 @NgModule({
@@ -21,7 +24,8 @@ import { LoginComponent } from './login/login.component';
     HelloComponent,
     RegisterComponent,
     MapsComponent,
-    LoginComponent
+    LoginComponent,
+    BrowseAnnouncementComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +33,8 @@ import { LoginComponent } from './login/login.component';
     HttpClientModule,
     AppRoutingModule,
     ToastModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    DataViewModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]
