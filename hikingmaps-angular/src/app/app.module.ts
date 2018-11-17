@@ -1,10 +1,12 @@
 import { MessageService } from 'primeng/api';
 
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastModule } from 'primeng/toast';
+import { CalendarModule } from 'primeng/calendar';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { DataViewModule } from 'primeng/dataview';
@@ -15,6 +17,7 @@ import { RegisterComponent } from './register/register.component';
 import { MapsComponent } from './maps/maps.component';
 import { LoginComponent } from './login/login.component';
 import { BrowseAnnouncementComponent } from './browse-announcement/browse-announcement.component';
+import { AddAnnouncementComponent } from './add-announcement/add-announcement.component';
 
 
 
@@ -25,7 +28,8 @@ import { BrowseAnnouncementComponent } from './browse-announcement/browse-announ
     RegisterComponent,
     MapsComponent,
     LoginComponent,
-    BrowseAnnouncementComponent
+    BrowseAnnouncementComponent,
+    AddAnnouncementComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +38,11 @@ import { BrowseAnnouncementComponent } from './browse-announcement/browse-announ
     AppRoutingModule,
     ToastModule,
     BrowserAnimationsModule,
-    DataViewModule
+    DataViewModule,
+    CalendarModule,
+    BrowserAnimationsModule,
+    InputTextareaModule,
+    ToastModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]
