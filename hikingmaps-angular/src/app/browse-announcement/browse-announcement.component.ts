@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AnnouncementService} from '../announcement.service';
 import { Announcement } from '../announcement';
 import { MenuItem } from 'primeng/api';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-browse-announcement',
@@ -16,6 +16,7 @@ export class BrowseAnnouncementComponent implements OnInit {
 
   constructor(
     private announcementService: AnnouncementService,
+    private router: Router
   ) { }
 
 
