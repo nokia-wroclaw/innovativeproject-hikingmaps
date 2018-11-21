@@ -26,15 +26,15 @@ export class BrowseAnnouncementComponent implements OnInit {
         label: 'User',
         icon: 'pi pi-fw pi-user',
         items: [
-          {label: 'Login', icon: 'pi pi-fw pi-question', command: (onclick) => {window.location.href = '/login'; } },
-          {label: 'Register', icon: 'pi pi-fw pi-question', command: (onclick) => {window.location.href = '/register'; } }
+          {label: 'Login', icon: 'pi pi-fw pi-question', command: (onclick) => {this.router.navigate(['/login']); } },
+          {label: 'Register', icon: 'pi pi-fw pi-question', command: (onclick) => {this.router.navigate(['/register']); } }
         ]
       },
       {
         label: 'Announcement',
         icon: 'pi pi-fw pi-pencil',
         items: [
-          {label: 'Add', icon: 'pi pi-fw pi-plus', command: (onclick) => {window.location.href = '/add'; } },
+          {label: 'Add', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/add']); } },
         ]
       }
     ];
