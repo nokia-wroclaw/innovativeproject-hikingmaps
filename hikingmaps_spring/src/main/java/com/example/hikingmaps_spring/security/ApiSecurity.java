@@ -26,7 +26,9 @@ public class ApiSecurity extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable().authorizeRequests()
-				.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll().anyRequest().authenticated()
+				.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
+				.antMatchers(SecurityConstants.H2_CONSOLE).permitAll()
+				.antMatchers(SecurityConstants.SWAGGER_UI).permitAll()
 				.and().addFilter(new JWTAuthenticationFilter(authenticationManager()))
 				.addFilter(new JWTAuthorizationFilter(authenticationManager())).sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
