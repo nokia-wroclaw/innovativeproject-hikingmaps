@@ -1,5 +1,7 @@
 package com.example.hikingmaps_spring.security;
 
+import java.util.Optional;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,10 +20,11 @@ public class UserDetailsServiceImplementation implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.findByLogin(username);
-		if (user == null) {
+		Optional<User> user = userRepository.findByLogin(username);
+		if (user.isPresent()) {
+			return new User(user.get().getUsername(), user.get().getPassword());
+		} else {
 			throw new UsernameNotFoundException(username);
 		}
-		return new User(user.getUsername(), user.getPassword());
 	}
 }
