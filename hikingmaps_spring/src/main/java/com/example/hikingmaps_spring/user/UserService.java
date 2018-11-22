@@ -25,9 +25,8 @@ public class UserService {
 		if (user.getPassword().length() < 8)
 			throw new PasswordTooShortException();
 		user.setPassword(encoder.encode(user.getPassword()));
-		for (User u : repository.findAll())
-			if (u.getLogin().equals(user.getLogin()))
-				throw new UserExistsException();
+		if (repository.findByLogin(user.getLogin()).isPresent())
+			throw new UserExistsException();
 		try {
 			this.repository.save(user);
 		} catch (TransactionSystemException e) {
