@@ -29,6 +29,7 @@ public class ApiSecurity extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
 				.antMatchers(SecurityConstants.H2_CONSOLE).permitAll()
 				.antMatchers(SecurityConstants.SWAGGER_UI).permitAll()
+				.anyRequest().authenticated()
 				.and().addFilter(new JWTAuthenticationFilter(authenticationManager()))
 				.addFilter(new JWTAuthorizationFilter(authenticationManager())).sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
