@@ -33,6 +33,7 @@ public class ApiSecurity extends WebSecurityConfigurerAdapter {
 				.and().addFilter(new JWTAuthenticationFilter(authenticationManager()))
 				.addFilter(new JWTAuthorizationFilter(authenticationManager())).sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.headers().frameOptions().disable();
 	}
 
 	@Override
