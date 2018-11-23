@@ -10,6 +10,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { MapsComponent } from './maps/maps.component';
 import { BrowseAnnouncementComponent } from './browse-announcement/browse-announcement.component';
 import { DataViewModule } from 'primeng/dataview';
+import { DropdownModule} from 'primeng/primeng';
+import { PanelModule} from 'primeng/primeng';
+import { DialogModule} from 'primeng/primeng';
+import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { ButtonModule} from 'primeng/primeng';
 
 @NgModule({
   declarations: [
@@ -24,7 +29,12 @@ import { DataViewModule } from 'primeng/dataview';
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
-    DataViewModule
+    DataViewModule,
+    DropdownModule,
+    PanelModule,
+    DialogModule,
+    BrowserAnimationsModule,
+    ButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
