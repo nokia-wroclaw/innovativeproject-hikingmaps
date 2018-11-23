@@ -2,8 +2,11 @@ package com.example.hikingmaps_spring.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
@@ -23,7 +26,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
-		String header = req.getHeader(SecurityConstants.HEADER);
+		String header = req.getHeader(SecurityConstants.AUTHORIZATION_HEADER);
 
 		if (header == null) {
 			chain.doFilter(req, res);
@@ -37,13 +40,17 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 	}
 
 	private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-		String token = request.getHeader(SecurityConstants.HEADER);
+		String token = request.getHeader(SecurityConstants.AUTHORIZATION_HEADER);
 		if (token != null) {
-			String user = JWT.require(Algorithm.HMAC512(SecurityConstants.SECRET.getBytes())).build()
-					.verify(token.replace(SecurityConstants.TOKEN_PREFIX, "")).getSubject();
-
-			if (user != null) {
-				return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+			DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512(SecurityConstants.SECRET.getBytes())).build()
+					.verify(token.replace(SecurityConstants.TOKEN_PREFIX, ""));
+			String username = decodedJWT.getSubject();
+			if (username != null) {
+				ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
+				authorities.add(new SimpleGrantedAuthority("user"));
+				if (decodedJWT.getClaim("admin").asBoolean())
+					authorities.add(new SimpleGrantedAuthority("admin"));
+				return new UsernamePasswordAuthenticationToken(username, null, authorities);
 			}
 			return null;
 		}
