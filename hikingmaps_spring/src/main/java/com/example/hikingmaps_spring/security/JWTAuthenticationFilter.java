@@ -2,6 +2,7 @@ package com.example.hikingmaps_spring.security;
 
 import com.auth0.jwt.JWT;
 import com.example.hikingmaps_spring.user.User;
+import com.example.hikingmaps_spring.user.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,9 +22,11 @@ import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	private AuthenticationManager authenticationManager;
+	private UserRepository repository;
 
-	public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
+	public JWTAuthenticationFilter(UserRepository repository, AuthenticationManager authenticationManager) {
 		this.authenticationManager = authenticationManager;
+		this.repository = repository;
 		setFilterProcessesUrl(SecurityConstants.SIGN_IN_URL);
 	}
 
@@ -43,10 +46,11 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	@Override
 	protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
 			Authentication auth) throws IOException, ServletException {
-
+		User user = repository.findByLogin(((User) auth.getPrincipal()).getUsername()).get();
 		String token = JWT.create().withSubject(((User) auth.getPrincipal()).getUsername())
-				.withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
+				.withClaim("admin", user.isAdmin())
+				.withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION_TIME))
 				.sign(HMAC512(SecurityConstants.SECRET.getBytes()));
-		res.addHeader(SecurityConstants.HEADER, SecurityConstants.TOKEN_PREFIX + token);
+		res.addHeader(SecurityConstants.AUTHORIZATION_HEADER, SecurityConstants.TOKEN_PREFIX + token);
 	}
 }
