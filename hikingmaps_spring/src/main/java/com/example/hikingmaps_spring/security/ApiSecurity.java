@@ -10,29 +10,31 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import com.example.hikingmaps_spring.user.UserRepository;
+
 import org.springframework.context.annotation.Bean;
 
 @EnableWebSecurity
 public class ApiSecurity extends WebSecurityConfigurerAdapter {
 	private UserDetailsServiceImplementation userDetailsService;
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	private UserRepository repository;
 
-	public ApiSecurity(UserDetailsServiceImplementation userDetailsService,
+	public ApiSecurity(UserRepository repository, UserDetailsServiceImplementation userDetailsService,
 			BCryptPasswordEncoder bCryptPasswordEncoder) {
+		this.repository = repository;
 		this.userDetailsService = userDetailsService;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.cors().and().csrf().disable().authorizeRequests()
-				.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
-				.antMatchers(SecurityConstants.H2_CONSOLE).permitAll()
-				.antMatchers(SecurityConstants.SWAGGER_UI).permitAll()
-				.anyRequest().authenticated()
-				.and().addFilter(new JWTAuthenticationFilter(authenticationManager()))
-				.addFilter(new JWTAuthorizationFilter(authenticationManager())).sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.cors().and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.and().authorizeRequests().antMatchers("/sec/**").hasAuthority("user").and().authorizeRequests()
+				.antMatchers("/admin/**").hasAuthority("admin").and()
+				.addFilter(new JWTAuthenticationFilter(repository, authenticationManager()))
+				.addFilter(new JWTAuthorizationFilter(authenticationManager())).headers().frameOptions().disable();
 	}
 
 	@Override

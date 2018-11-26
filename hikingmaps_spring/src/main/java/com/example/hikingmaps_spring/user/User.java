@@ -22,6 +22,7 @@ public class User implements UserDetails {
 	private long id;
 	private String login;
 	private String password;
+	private boolean admin;
 	@Email
 	private String email;
 
@@ -31,6 +32,7 @@ public class User implements UserDetails {
 	public User(String login, String password) {
 		this.login = login;
 		this.password = password;
+		this.admin=false;
 	}
 
 	public long getId() {
@@ -55,6 +57,10 @@ public class User implements UserDetails {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public boolean isAdmin() {
+		return admin;
 	}
 
 	@Override
