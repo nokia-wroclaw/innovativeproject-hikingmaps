@@ -48,8 +48,9 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 			if (username != null) {
 				ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
 				authorities.add(new SimpleGrantedAuthority("user"));
-				if (decodedJWT.getClaim("admin").asBoolean())
+				if (decodedJWT.getClaim("admin").asBoolean()) {
 					authorities.add(new SimpleGrantedAuthority("admin"));
+				}
 				return new UsernamePasswordAuthenticationToken(username, null, authorities);
 			}
 			return null;

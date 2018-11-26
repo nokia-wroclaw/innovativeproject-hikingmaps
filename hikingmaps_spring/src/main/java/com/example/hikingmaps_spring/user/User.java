@@ -1,38 +1,28 @@
 package com.example.hikingmaps_spring.user;
 
-import java.util.Collection;
-import static java.util.Collections.emptyList;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 @Entity
-public class User implements UserDetails {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5984242258411540856L;
+public class User {
 	@Id
 	@GeneratedValue
 	private long id;
 	private String login;
 	private String password;
-	private boolean admin;
+	private boolean admin = false;
 	@Email
 	private String email;
 
 	public User() {
 	}
 
-	public User(String login, String password) {
+	public User(String login, String password, String email) {
 		this.login = login;
 		this.password = password;
-		this.admin=false;
+		this.email = email;
 	}
 
 	public long getId() {
@@ -61,35 +51,5 @@ public class User implements UserDetails {
 	
 	public boolean isAdmin() {
 		return admin;
-	}
-
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return emptyList();
-	}
-
-	@Override
-	public String getUsername() {
-		return getLogin();
-	}
-
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		return true;
 	}
 }

@@ -18,17 +18,17 @@ public class UserService {
 		this.encoder = encoder;
 	}
 
-	public void register(User user) {
+	public void register(UserDto user) {
 		if (user.getPassword() == null || user.getLogin() == null || user.getLogin().length() == 0
 				|| user.getEmail() == null || user.getEmail().length() == 0)
 			throw new MissingCredentialsException();
 		if (user.getPassword().length() < 8)
 			throw new PasswordTooShortException();
-		user.setPassword(encoder.encode(user.getPassword()));
+		User userEntity = new User(user.getLogin(), encoder.encode(user.getPassword()), user.getEmail());
 		if (repository.findByLogin(user.getLogin()).isPresent())
 			throw new UserExistsException();
 		try {
-			this.repository.save(user);
+			this.repository.save(userEntity);
 		} catch (TransactionSystemException e) {
 			throw new InvalidEmailException();
 		}

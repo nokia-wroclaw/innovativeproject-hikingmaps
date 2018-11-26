@@ -1,6 +1,5 @@
 package com.example.hikingmaps_spring.security;
 
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,11 +16,11 @@ import org.springframework.context.annotation.Bean;
 
 @EnableWebSecurity
 public class ApiSecurity extends WebSecurityConfigurerAdapter {
-	private UserDetailsServiceImplementation userDetailsService;
+	private UserDetailsServiceImpl userDetailsService;
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	private UserRepository repository;
 
-	public ApiSecurity(UserRepository repository, UserDetailsServiceImplementation userDetailsService,
+	public ApiSecurity(UserRepository repository, UserDetailsServiceImpl userDetailsService,
 			BCryptPasswordEncoder bCryptPasswordEncoder) {
 		this.repository = repository;
 		this.userDetailsService = userDetailsService;
