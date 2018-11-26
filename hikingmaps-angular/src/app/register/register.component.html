@@ -8,6 +8,9 @@
       <input [ngClass]="{'bad_input': !goodEmail}" (blur)="valdateEmail()" autocomplete="off" type="email" name='email' id='email' required [(ngModel)]="email">
       <label for="password">Password</label>
       <input [ngClass]="{'bad_input': !goodPassword}" (blur)="valdatePassword()" autocomplete="off" type="password" name='password' id='password' required [(ngModel)]="password">
+      <label for="password">Confirm password</label>
+      <input [ngClass]="{'bad_input': !goodConfirm}" (blur)="valdateConfirm()" autocomplete="off" type="password" name='passwordConfirm'
+        id='passwordConfirm' required [(ngModel)]="passwordConfirm">
       <input type='submit' value='Sign up'>
     </form>
   </div>

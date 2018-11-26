@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { MessageService } from 'primeng/api';
@@ -14,7 +15,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
     ) { }
 
   ngOnInit() {
@@ -25,6 +27,7 @@ export class LoginComponent implements OnInit {
       .subscribe(() => {
         // send message about succes and reroute
         this.messageService.add({severity: 'success', summary: 'Succes', detail: 'User logged in succesfully'});
+        this.router.navigate(['/browse']);
       }, (error) => {
         // send message about error
         this.messageService.add({ severity: 'error', summary: 'Error',

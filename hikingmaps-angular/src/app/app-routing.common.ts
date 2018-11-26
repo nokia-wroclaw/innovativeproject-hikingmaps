@@ -14,23 +14,24 @@ export const providerDeclarations: any[] = [
 
 export const routes: Routes = [
   {
-    path: 'register',
-    component: RegisterComponent,
-    pathMatch: 'full',
-  },
-  {
     path: '',
-    component: BrowseAnnouncementComponent,
+    redirectTo: '/login',
     pathMatch: 'full',
   },
   {
     path: 'login',
     component: LoginComponent,
-    pathMatch: 'full',
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
   },
   {
     path: 'add',
     component: AddAnnouncementComponent,
-    pathMatch: 'full',
-  }
+  },
+  {
+    path: 'browse',
+    component: BrowseAnnouncementComponent,
+  },
 ];
