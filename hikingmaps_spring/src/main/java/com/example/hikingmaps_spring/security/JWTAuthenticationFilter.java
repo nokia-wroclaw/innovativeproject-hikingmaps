@@ -36,7 +36,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		try {
 			User creds = new ObjectMapper().readValue(req.getInputStream(), User.class);
 
-			return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(creds.getUsername(),
+			return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(creds.getLogin(),
 					creds.getPassword(), new ArrayList<>()));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -46,8 +46,9 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	@Override
 	protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
 			Authentication auth) throws IOException, ServletException {
-		User user = repository.findByLogin(((User) auth.getPrincipal()).getUsername()).get();
-		String token = JWT.create().withSubject(((User) auth.getPrincipal()).getUsername())
+		org.springframework.security.core.userdetails.User secUser =  (org.springframework.security.core.userdetails.User) auth.getPrincipal();
+		User user = repository.findByLogin(secUser.getUsername()).get();
+		String token = JWT.create().withSubject(secUser.getUsername())
 				.withClaim("admin", user.isAdmin())
 				.withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION_TIME))
 				.sign(HMAC512(SecurityConstants.SECRET.getBytes()));
