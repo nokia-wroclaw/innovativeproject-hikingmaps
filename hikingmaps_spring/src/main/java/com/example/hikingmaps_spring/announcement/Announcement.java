@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.example.hikingmaps_spring.user.User;
 import static java.util.Collections.emptyList;
 
@@ -21,7 +23,7 @@ public class Announcement {
 	private String start;
 	private String destination;
 	private String description;
-	// @DateTimeFormat(pattern="yyyy-MM-dd")
+	@DateTimeFormat(pattern="dd.mm.yy")
 	private Date date;
 	@OneToMany
 	private List<User> interested;

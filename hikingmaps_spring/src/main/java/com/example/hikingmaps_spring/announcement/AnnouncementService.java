@@ -3,11 +3,13 @@ package com.example.hikingmaps_spring.announcement;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.example.hikingmaps_spring.announcement.exceptions.AnnouncementDoesnExistException;
 import com.example.hikingmaps_spring.user.User;
 import com.google.common.collect.Lists;
 
+@Service
 public class AnnouncementService {
 	private AnnouncementRepository repository;
 	

@@ -3,14 +3,14 @@ package com.example.hikingmaps_spring.user;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionSystemException;
 
 import com.example.hikingmaps_spring.announcement.AnnouncementService;
 import com.example.hikingmaps_spring.user.exceptions.*;
 
-@Configuration
+@Service
 public class UserService {
 	private final UserRepository repository;
 	private final BCryptPasswordEncoder encoder;
