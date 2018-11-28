@@ -44,7 +44,10 @@ public class ApiSecurity extends WebSecurityConfigurerAdapter {
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
-		return source;
+		CorsConfiguration config = new CorsConfiguration();
+		config.applyPermitDefaultValues();
+        config.addExposedHeader("authorization");
+        source.registerCorsConfiguration("/**", config);
+        return source;
 	}
 }
