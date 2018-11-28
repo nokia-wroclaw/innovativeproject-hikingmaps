@@ -1,0 +1,19 @@
+<div class="content">
+  <div [ngClass]="'main'">
+
+    <h1>Add new announcement</h1>
+    <form [ngClass]="'reg_form'" (submit)="handleSubmit()">
+      <label for="name">Name</label>
+      <input autofocus autocomplete="off" type="text" name="name" id="name" required [(ngModel)]="name">
+      <label for="start">Start</label>
+      <input autocomplete="off" type="text" name="start" id="start" required [(ngModel)]="start">
+      <label for="destination">Destination</label>
+      <input autocomplete="off" type="text" name="destination" id="destination" required [(ngModel)]="destination">
+      <label for="date">Date</label>
+      <p-calendar [(ngModel)]="date" [ngModelOptions]="{standalone: true}" name="date" id="date"  [showTime]="true"></p-calendar>
+      <label for="description">Description</label>
+      <textarea [cols]="40" [rows]="5" pInputTextarea [(ngModel)]="description" name="description" id="description"></textarea>
+      <input type='submit' value='Add'>
+    </form>
+  </div>
+</div>

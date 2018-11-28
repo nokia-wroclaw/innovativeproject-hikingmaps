@@ -3,11 +3,11 @@
     <h1>Register new account</h1>
     <form [ngClass]="'reg_form'" (submit)="handleSubmit()">
       <label for="username">Username</label>
-      <input autofocus autocomplete="off" type="text" name='username' id='username' required [(ngModel)]="username">
+      <input [ngClass]="{'bad_input': !goodUsername}" (blur)="valdateLogin()" autofocus autocomplete="off" type="text" name='username' id='username' required [(ngModel)]="username">
       <label for="email">Email</label>
-      <input autocomplete="off" type="text" name='email' id='email' [(ngModel)]="email">
+      <input [ngClass]="{'bad_input': !goodEmail}" (blur)="valdateEmail()" autocomplete="off" type="email" name='email' id='email' required [(ngModel)]="email">
       <label for="password">Password</label>
-      <input autocomplete="off" type="password" name='password' id='password' required [(ngModel)]="password">
+      <input [ngClass]="{'bad_input': !goodPassword}" (blur)="valdatePassword()" autocomplete="off" type="password" name='password' id='password' required [(ngModel)]="password">
       <input type='submit' value='Sign up'>
     </form>
   </div>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Announcement } from 'src/app/announcement';
-import {environment} from '../environments/environment';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -59,7 +59,10 @@ export class AnnouncementService {
   getAnnouncements()  {
     return this.announcements;
   }
+  public addAnnouncement(name: string, date: string, description: string, start: string, destination: string) {
+    return this.http.post(`${environment.apiUrl}/announcement/add`, { name, date, description, start, destination});
 
+  }
   addInterest(announcement: Announcement) {
     // return this.http.post(`${environment.apiUrl}/announcement/interest`, { announcement.name});
   }

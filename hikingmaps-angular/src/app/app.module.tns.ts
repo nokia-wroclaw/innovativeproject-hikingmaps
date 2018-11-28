@@ -2,17 +2,20 @@ import { MessageService } from 'primeng/api';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { NativeScriptModule } from 'nativescript-angular/nativescript.module';
 import { ToastModule } from 'primeng/toast';
-
 import { AppRoutingModule } from './app-routing.module.tns';
-import { AppComponent } from './app.component';
-import { HelloComponent } from './hello/hello.component';
 import { NativeScriptHttpClientModule } from 'nativescript-angular/http-client';
 import { NativeScriptFormsModule } from 'nativescript-angular/forms';
-import { RegisterComponent } from './register/register.component';
-import { MapsComponent } from './maps/maps.component';
-import { BrowseAnnouncementComponent } from './browse-announcement/browse-announcement.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DataViewModule } from 'primeng/dataview';
+import {MenubarModule} from 'primeng/menubar';
+
+import { AppComponent } from './app.component';
+import { HelloComponent } from './hello/hello.component';
+import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
+import { MapsComponent } from './maps/maps.component';
+import { BrowseAnnouncementComponent } from './browse-announcement/browse-announcement.component';
+import {AddAnnouncementComponent} from './add-announcement/add-announcement.component';
 
 
 @NgModule({
@@ -21,7 +24,9 @@ import { DataViewModule } from 'primeng/dataview';
     HelloComponent,
     RegisterComponent,
     MapsComponent,
-    BrowseAnnouncementComponent
+    LoginComponent,
+    BrowseAnnouncementComponent,
+    AddAnnouncementComponent
   ],
   imports: [
     NativeScriptModule,
@@ -30,7 +35,8 @@ import { DataViewModule } from 'primeng/dataview';
     NativeScriptFormsModule,
     BrowserAnimationsModule,
     ToastModule,
-    DataViewModule
+    DataViewModule,
+    MenubarModule,
   ],
   providers: [MessageService],
   bootstrap: [AppComponent],

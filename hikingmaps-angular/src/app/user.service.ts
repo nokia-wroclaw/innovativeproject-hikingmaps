@@ -15,4 +15,7 @@ export class UserService {
   public addUser(login: string, email: string, password: string) {
     return this.http.post(`${environment.apiUrl}/user/register`, { login, email, password});
   }
+  public loginUser(login: string, password: string) {
+    return this.http.post(`${environment.apiUrl}/user/login`, {login, password});
+  }
 }
