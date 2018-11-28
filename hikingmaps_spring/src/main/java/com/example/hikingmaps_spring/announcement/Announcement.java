@@ -12,6 +12,8 @@ import javax.persistence.OneToMany;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.example.hikingmaps_spring.user.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import static java.util.Collections.emptyList;
 
 @Entity
@@ -23,7 +25,8 @@ public class Announcement {
 	private String start;
 	private String destination;
 	private String description;
-	@DateTimeFormat(pattern="dd.mm.yy")
+	@DateTimeFormat(pattern="dd.MM.yyyy")
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd.MM.yyyy")
 	private Date date;
 	@OneToMany
 	private List<User> interested;
