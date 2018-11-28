@@ -14,13 +14,11 @@ import com.example.hikingmaps_spring.user.exceptions.*;
 public class UserService {
 	private final UserRepository repository;
 	private final BCryptPasswordEncoder encoder;
-	private final AnnouncementService announcementService;
 
 	@Autowired
-	public UserService(UserRepository repository, BCryptPasswordEncoder encoder, AnnouncementService announcementService) {
+	public UserService(UserRepository repository, BCryptPasswordEncoder encoder) {
 		this.repository = repository;
 		this.encoder = encoder;
-		this.announcementService = announcementService;
 	}
 
 	public void register(UserDto user) {
@@ -38,11 +36,8 @@ public class UserService {
 			throw new InvalidEmailException();
 		}
 	}
-
-	public void interest(String username, long annId) {
-		Optional<User> optUser = repository.findByLogin(username);
-		User user = optUser.orElseThrow(UserDoesntExistException::new);
-		announcementService.addUser(user, annId);
-		
+	
+	public Optional<User> getByLogin(String username) {
+		return repository.findByLogin(username);
 	}
 }
