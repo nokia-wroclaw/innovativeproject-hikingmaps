@@ -1,15 +1,15 @@
 
-  <p-dataView #dv [value]="announcements" [paginator]="true" [rows]="20" paginatorPosition="both" filterBy="name"
+  <p-dataView #dv [value]="announcements" [paginator]="true" [rows]="20" paginatorPosition="both" filterBy="name,date,start,destination"
               [sortField]="sortField" [sortOrder]="sortOrder">
     <p-header>
       <div class="ui-helper-clearfix">
         <div class="ui-g">
           <div class="ui-g-12 ui-md-4">
-            <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By" (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}"></p-dropdown>
+            <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sortuj" (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}"></p-dropdown>
           </div>
           <div class="ui-g-6 ui-md-4 filter-container">
             <div style="position:relative">
-              <input type="search" pInputText placeholder="Search by name" (keyup)="dv.filter($event.target.value)">
+              <input type="search" pInputText placeholder="Szukaj" (keyup)="dv.filter($event.target.value)">
             </div>
           </div>
           <div class="ui-g-6 ui-md-4" style="text-align:right">
@@ -38,6 +38,7 @@
         </div>
         <div class="ui-g-12 ui-md-1 search-icon">
           <button pButton type="button" icon="pi pi-search" (click)="selectAnnouncement($event, announcment)"></button>
+          <button pButton type="button" icon="pi pi-star" style=" margin-left: 15px" (click)="selectAsInterested(announcment)"></button>
         </div>
       </div>
     </ng-template>
@@ -47,6 +48,7 @@
           <div class="car-detail">{{announcment.start}} - {{announcment.destination}}</div>
           <hr class="ui-widget-content" style="border-top:0">
           <button pButton type="button" icon="pi pi-search" (click)="selectAnnouncement($event, announcment)" style="margin-top:0"></button>
+          <button pButton type="button" icon="pi pi-star" style=" margin-left: 15px" (click)="selectAsInterested(announcment)"></button>
         </p-panel>
       </div>
     </ng-template>

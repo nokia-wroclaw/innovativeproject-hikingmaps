@@ -33,7 +33,7 @@ export class BrowseAnnouncementComponent implements OnInit {
 
     this.sortOptions = [
       {label: 'Najnowsze', value: '!date'},
-      {label: 'Najstarsze', value: 'data'}
+      {label: 'Najstarsze', value: 'date'}
     ];
   }
 
@@ -44,13 +44,12 @@ export class BrowseAnnouncementComponent implements OnInit {
   }
 
   onSortChange(event) {
-    let value = event.value;
+    const value = event.value;
 
     if (value.indexOf('!') === 0) {
       this.sortOrder = -1;
       this.sortField = value.substring(1, value.length);
-    }
-    else {
+    } else {
       this.sortOrder = 1;
       this.sortField = value;
     }
@@ -58,5 +57,10 @@ export class BrowseAnnouncementComponent implements OnInit {
 
   onDialogHide() {
     this.selectedAnnouncement = null;
+  }
+
+  selectAsInterested(announcemnt: Announcement) {
+    console.log(announcemnt);
+    this.announcementService.addInterest(announcemnt);
   }
 }
