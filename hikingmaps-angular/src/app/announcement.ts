@@ -1,5 +1,6 @@
 export interface Announcement {
-    name;
+    id;
+    title;
     description;
     start;
     destination;

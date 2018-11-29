@@ -35,7 +35,7 @@ export class BrowseAnnouncementComponent implements OnInit {
 
 
   ngOnInit() {
-    this.announcements = this.announcementService.getAnnouncements();
+    this.announcementService.getAnnouncements().subscribe(data => this.announcements = data);
     this.items = [
       {
         label: 'User',

@@ -1,4 +1,4 @@
-
+ <p-menubar [model]="items"></p-menubar>
   <p-dataView #dv [value]="announcements" [paginator]="true" [rows]="20" paginatorPosition="both" filterBy="name,date,start,destination"
               [sortField]="sortField" [sortOrder]="sortOrder">
     <p-header>
@@ -23,7 +23,7 @@
         <div class="ui-g-12 ui-md-8 announcement-details">
           <div class="ui-g">
             <div class="ui-g-2 ui-sm-6">Name: </div>
-            <div class="ui-g-10 ui-sm-6"><b>{{announcment.name}}</b></div>
+            <div class="ui-g-10 ui-sm-6"><b>{{announcment.title}}</b></div>
 
             <div class="ui-g-2 ui-sm-6">Date: </div>
             <div class="ui-g-10 ui-sm-6"><b>{{announcment.date}}</b></div>

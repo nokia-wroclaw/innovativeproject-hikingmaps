@@ -3,8 +3,8 @@
 
     <h1>Add new announcement</h1>
     <form [ngClass]="'reg_form'" (submit)="handleSubmit()">
-      <label for="name">Name</label>
-      <input autofocus autocomplete="off" type="text" name="name" id="name" required [(ngModel)]="name">
+      <label for="title">Title</label>
+      <input autofocus autocomplete="off" type="text" name="title" id="title" required [(ngModel)]="title">
       <label for="start">Start</label>
       <input autocomplete="off" type="text" name="start" id="start" required [(ngModel)]="start">
       <label for="destination">Destination</label>
