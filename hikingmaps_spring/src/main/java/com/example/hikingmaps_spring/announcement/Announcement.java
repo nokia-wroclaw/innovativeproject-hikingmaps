@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -31,7 +31,7 @@ public class Announcement {
 	@DateTimeFormat(pattern="dd.MM.yyyy")
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd.MM.yyyy")
 	private Date date;
-	@OneToMany
+	@ManyToMany
 	private List<User> interested;
 
 	public Announcement() {
