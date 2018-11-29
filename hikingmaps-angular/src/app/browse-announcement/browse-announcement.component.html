@@ -1,22 +1,72 @@
-<p-menubar [model]="items"></p-menubar>
-<p-dataView #dv [value]="announcements">
-<ng-template let-announcment pTemplate="listItem">
-  <div class="ui-g" style="padding: 2em;border-bottom: 1px solid #d9d9d9">
-    <div class="ui-g-12 ui-md-8 car-details">
-      <div class="ui-g">
-        <div class="ui-g-2 ui-sm-6">Name: </div>
-        <div class="ui-g-10 ui-sm-6"><b>{{announcment.name}}</b></div>
-
-        <div class="ui-g-2 ui-sm-6">Date: </div>
-        <div class="ui-g-10 ui-sm-6"><b>{{announcment.date}}</b></div>
-
-        <div class="ui-g-2 ui-sm-6">Start: </div>
-        <div class="ui-g-10 ui-sm-6"><b>{{announcment.start}}</b></div>
-
-        <div class="ui-g-2 ui-sm-6">Destination: </div>
-        <div class="ui-g-10 ui-sm-6"><b>{{announcment.destination}}</b></div>
-
+ <p-menubar [model]="items"></p-menubar>
+  <p-dataView #dv [value]="announcements" [paginator]="true" [rows]="20" paginatorPosition="both" filterBy="name,date,start,destination"
+              [sortField]="sortField" [sortOrder]="sortOrder">
+    <p-header>
+      <div class="ui-helper-clearfix">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-4">
+            <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sortuj" (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}"></p-dropdown>
+          </div>
+          <div class="ui-g-6 ui-md-4 filter-container">
+            <div style="position:relative">
+              <input type="search" pInputText placeholder="Szukaj" (keyup)="dv.filter($event.target.value)">
+            </div>
+          </div>
+          <div class="ui-g-6 ui-md-4" style="text-align:right">
+            <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+          </div>
+        </div>
       </div>
+    </p-header>
+    <ng-template let-announcment pTemplate="listItem">
+      <div class="ui-g" style="padding: 2em;border-bottom: 1px solid #d9d9d9">
+        <div class="ui-g-12 ui-md-8 announcement-details">
+          <div class="ui-g">
+            <div class="ui-g-2 ui-sm-6">Name: </div>
+            <div class="ui-g-10 ui-sm-6"><b>{{announcment.title}}</b></div>
+
+            <div class="ui-g-2 ui-sm-6">Date: </div>
+            <div class="ui-g-10 ui-sm-6"><b>{{announcment.date}}</b></div>
+
+            <div class="ui-g-2 ui-sm-6">Start: </div>
+            <div class="ui-g-10 ui-sm-6"><b>{{announcment.start}}</b></div>
+
+            <div class="ui-g-2 ui-sm-6">Destination: </div>
+            <div class="ui-g-10 ui-sm-6"><b>{{announcment.destination}}</b></div>
+
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-1 search-icon">
+          <button pButton type="button" icon="pi pi-search" (click)="selectAnnouncement($event, announcment)"></button>
+          <button pButton type="button" icon="pi pi-star" style=" margin-left: 15px" (click)="selectAsInterested(announcment)"></button>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template let-announcment pTemplate="gridItem">
+      <div style="padding:.5em" class="ui-g-12 ui-md-3">
+        <p-panel [header]="announcment.name" [style]="{'text-align':'center'}">
+          <div class="car-detail">{{announcment.start}} - {{announcment.destination}}</div>
+          <hr class="ui-widget-content" style="border-top:0">
+          <button pButton type="button" icon="pi pi-search" (click)="selectAnnouncement($event, announcment)" style="margin-top:0"></button>
+          <button pButton type="button" icon="pi pi-star" style=" margin-left: 15px" (click)="selectAsInterested(announcment)"></button>
+        </p-panel>
+      </div>
+    </ng-template>
+  </p-dataView>
+
+  <p-dialog header="Announcment Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="325" (onAfterHide)="onDialogHide()">
+    <div class="ui-g" *ngIf="selectedAnnouncement">
+
+      <div class="ui-g-4">Date: </div>
+      <div class="ui-g-8">{{selectedAnnouncement.date}}</div>
+
+      <div class="ui-g-4">Start: </div>
+      <div class="ui-g-8">{{selectedAnnouncement.start}}</div>
+
+      <div class="ui-g-4">Destination: </div>
+      <div class="ui-g-8">{{selectedAnnouncement.destination}}</div>
+
+      <div class="ui-g-4">Description: </div>
+      <div class="ui-g-8">{{selectedAnnouncement.description}}</div>
     </div>
-  </div>
-</ng-template>
+  </p-dialog>

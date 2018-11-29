@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AnnouncementService } from '../announcement.service';
 import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add',
@@ -9,7 +10,7 @@ import { MessageService } from 'primeng/api';
 })
 export class AddAnnouncementComponent implements OnInit {
 
-  public name = '';
+  public title = '';
   public description = '';
   public date = '';
   public start = '';
@@ -18,7 +19,8 @@ export class AddAnnouncementComponent implements OnInit {
 
   constructor(
     private announcementService: AnnouncementService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -26,9 +28,10 @@ export class AddAnnouncementComponent implements OnInit {
 
   handleSubmit() {
 
-    this.announcementService.addAnnouncement(this.name, this.date, this.description, this.start, this.destination)
+    this.announcementService.addAnnouncement( this.title, this.start, this.destination, this.description, this.date)
       .subscribe(() => {
         this.messageService.add({ severity: 'success', summary: 'Succes', detail: 'Announcement added succesfully' });
+        this.router.navigate(['/browse']);
         // send message about succes and reroute
       }, (error) => {
         // send message about error
