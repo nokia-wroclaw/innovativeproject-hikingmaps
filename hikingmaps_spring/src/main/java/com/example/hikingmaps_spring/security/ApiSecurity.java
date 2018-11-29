@@ -30,7 +30,7 @@ public class ApiSecurity extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-				.and().authorizeRequests().antMatchers("/sec/**").permitAll().and().authorizeRequests()
+				.and().authorizeRequests().antMatchers("/sec/**").hasAuthority("user").and().authorizeRequests()
 				.antMatchers("/admin/**").hasAuthority("admin").and()
 				.addFilter(new JWTAuthenticationFilter(repository, authenticationManager()))
 				.addFilter(new JWTAuthorizationFilter(authenticationManager())).headers().frameOptions().disable();
@@ -46,8 +46,8 @@ public class ApiSecurity extends WebSecurityConfigurerAdapter {
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
 		config.applyPermitDefaultValues();
-		config.addExposedHeader("authorization");
-		source.registerCorsConfiguration("/**", config);
-		return source;
+        config.addExposedHeader("authorization");
+        source.registerCorsConfiguration("/**", config);
+        return source;
 	}
 }

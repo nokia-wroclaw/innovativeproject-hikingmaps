@@ -26,7 +26,7 @@ export class UserService {
     });
     this.http.post(`${environment.apiUrl}/user/login`, { login, password }, { observe: 'response' })
       .subscribe((response) => {
-        this.auth.setKey(response.headers['Authorization']);
+        this.auth.setKey(response.headers.get('authorization'));
         if (observer) {
           observer.next();
         }
