@@ -4,7 +4,10 @@ public class UserDto {
 	private String login;
 	private String password;
 	private String email;
-	
+
+	public UserDto() {
+
+	}
 	
 	public UserDto(String login, String password, String email) {
 		super();

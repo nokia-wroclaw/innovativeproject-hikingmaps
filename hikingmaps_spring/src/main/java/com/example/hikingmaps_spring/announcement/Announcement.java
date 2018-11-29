@@ -25,8 +25,6 @@ public class Announcement {
 	private String start;
 	private String destination;
 	private String description;
-	@DateTimeFormat(pattern="dd.MM.yyyy")
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd.MM.yyyy")
 	private Date date;
 	@OneToMany
 	private List<User> interested;
