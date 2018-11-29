@@ -5,5 +5,5 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Route doesnt exist")
 public class RouteDoesntExistException extends RuntimeException {
-    private static final long serialVersionUID = 8788;
+    private static final long serialVersionUID = -7089949220284109987L;
 }
