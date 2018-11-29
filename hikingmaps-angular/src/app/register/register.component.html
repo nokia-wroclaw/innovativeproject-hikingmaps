@@ -1,0 +1,17 @@
+<div class="content">
+  <div [ngClass]="'main'">
+    <h1>Register new account</h1>
+    <form [ngClass]="'reg_form'" (submit)="handleSubmit()">
+      <label for="username">Username</label>
+      <input [ngClass]="{'bad_input': !goodUsername}" (blur)="valdateLogin()" autofocus autocomplete="off" type="text" name='username' id='username' required [(ngModel)]="username">
+      <label for="email">Email</label>
+      <input [ngClass]="{'bad_input': !goodEmail}" (blur)="valdateEmail()" autocomplete="off" type="email" name='email' id='email' required [(ngModel)]="email">
+      <label for="password">Password</label>
+      <input [ngClass]="{'bad_input': !goodPassword}" (blur)="valdatePassword()" autocomplete="off" type="password" name='password' id='password' required [(ngModel)]="password">
+      <label for="password">Confirm password</label>
+      <input [ngClass]="{'bad_input': !goodConfirm}" (blur)="valdateConfirm()" autocomplete="off" type="password" name='passwordConfirm'
+        id='passwordConfirm' required [(ngModel)]="passwordConfirm">
+      <input type='submit' value='Sign up'>
+    </form>
+  </div>
+</div>

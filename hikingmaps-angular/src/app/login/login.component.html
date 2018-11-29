@@ -1,0 +1,12 @@
+<div class="content">
+  <div [ngClass]="'main'">
+    <h1>Sign in</h1>
+    <form [ngClass]="'reg_form'" (submit)="handleSubmit()">
+      <label for="username">Username</label>
+      <input autofocus autocomplete="off" type="text" name='username' id='username' required [(ngModel)]="username">
+      <label for="password">Password</label>
+      <input autocomplete="off" type="password" name='password' id='password' required [(ngModel)]="password">
+      <input type='submit' value='Sign in'>
+    </form>
+  </div>
+</div>
