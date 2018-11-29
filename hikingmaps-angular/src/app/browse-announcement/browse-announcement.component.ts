@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AnnouncementService} from '../announcement.service';
 import { Announcement } from '../announcement';
-import { MenuItem } from 'primeng/api';
+import {MenuItem, MessageService} from 'primeng/api';
 import { Router } from '@angular/router';
 import {SelectItem} from 'primeng/api';
 
@@ -30,12 +30,16 @@ export class BrowseAnnouncementComponent implements OnInit {
 
   constructor(
     private announcementService: AnnouncementService,
+    private messageService: MessageService,
     private router: Router
   ) { }
 
 
   ngOnInit() {
-    this.announcementService.getAnnouncements().subscribe(data => this.announcements = data);
+    this.announcementService.getAnnouncements()
+      .subscribe(
+        data => this.announcements = data
+      );
     this.items = [
       {
         label: 'User',
@@ -83,7 +87,15 @@ export class BrowseAnnouncementComponent implements OnInit {
   }
 
   selectAsInterested(announcemnt: Announcement) {
-    console.log(announcemnt);
-    this.announcementService.addInterest(announcemnt);
+    this.announcementService.addInterest(announcemnt.id)
+      .subscribe(() => {
+      this.messageService.add({ severity: 'success', summary: 'Succes', detail: 'Announcement added succesfully' });
+      this.router.navigate(['/browse']);
+      // send message about succes and reroute
+    }, (error) => {
+      // send message about error
+      this.messageService.add({ severity: 'error', summary: 'Error',
+        detail: (error.error.message) ? error.error.message : error.statusText });
+    });
   }
 }
