@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 })
 export class AddAnnouncementComponent implements OnInit {
 
-  private id = '';
   public title = '';
   public description = '';
   public date = '';
@@ -29,7 +28,7 @@ export class AddAnnouncementComponent implements OnInit {
 
   handleSubmit() {
 
-    this.announcementService.addAnnouncement('12300432', this.title, this.start, this.destination, this.description, this.date)
+    this.announcementService.addAnnouncement( this.title, this.start, this.destination, this.description, this.date)
       .subscribe(() => {
         this.messageService.add({ severity: 'success', summary: 'Succes', detail: 'Announcement added succesfully' });
         this.router.navigate(['/browse']);

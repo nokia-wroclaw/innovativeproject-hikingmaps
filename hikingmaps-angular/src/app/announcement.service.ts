@@ -17,8 +17,8 @@ export class AnnouncementService {
   getAnnouncements()  {
     return this.http.get<Announcement[]>(`${environment.apiUrl}/sec/ann/all`);
   }
-  public addAnnouncement(id: string, title: string,  start: string, destination: string, description: string, date: string) {
-    return this.http.post(`${environment.apiUrl}/sec/ann/add`, { id, title, start, destination, description, date});
+  public addAnnouncement( title: string,  start: string, destination: string, description: string, date: string) {
+    return this.http.post(`${environment.apiUrl}/sec/ann/add`, { title, start, destination, description, date});
 
   }
   addInterest(announcement: Announcement) {
