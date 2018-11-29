@@ -10,10 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.example.hikingmaps_spring.user.User;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import static java.util.Collections.emptyList;
 

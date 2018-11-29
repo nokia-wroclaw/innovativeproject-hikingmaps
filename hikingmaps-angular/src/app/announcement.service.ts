@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Announcement } from 'src/app/announcement';
 import { environment } from '../environments/environment';
-import {SessionService} from './session.service';
+import { SessionService } from './session.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,17 +14,18 @@ export class AnnouncementService {
     private auth: SessionService
   ) { }
 
-  getAnnouncements()  {
+  getAnnouncements() {
     const key = this.auth.getKey();
-    return this.http.get<Announcement[]>(`${environment.apiUrl}/sec/ann/all`, {headers: {'authorization': key}});
+    return this.http.get<Announcement[]>(`${environment.apiUrl}/sec/ann/all`, { headers: { 'authorization': key } });
   }
-  public addAnnouncement( title: string,  start: string, destination: string, description: string, date: string) {
+  public addAnnouncement(title: string, start: string, destination: string, description: string, date: string) {
     const key = this.auth.getKey();
-    return this.http.post(`${environment.apiUrl}/sec/ann/add`, { title, date, description, start, destination}, {headers: {'authorization': key}});
+    return this.http.post(`${environment.apiUrl}/sec/ann/add`,
+      { title, date, description, start, destination }, { headers: { 'authorization': key } });
   }
   addInterest(id: String) {
     const key = this.auth.getKey();
-    return this.http.post(`${environment.apiUrl}/sec/ann/interest?annId=${id}`, {headers: {'authorization': key}});
+    return this.http.post(`${environment.apiUrl}/sec/ann/interest?annId=${id}`, {}, { headers: { 'authorization': key } });
   }
 
 }
