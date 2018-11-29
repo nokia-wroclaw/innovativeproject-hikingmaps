@@ -7,7 +7,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionSystemException;
 
-import com.example.hikingmaps_spring.announcement.AnnouncementService;
 import com.example.hikingmaps_spring.user.exceptions.*;
 
 @Service
