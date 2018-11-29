@@ -1,0 +1,57 @@
+body {
+  height: 100%;
+}
+.content h1 {
+  text-align: center;
+}
+
+.main {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+
+  max-width: 400px;
+  min-width: 300px;
+  background-color: white;
+  box-shadow: 4px 4px 0 1px #999;
+  padding: 20px;
+  padding-top: 1px;
+}
+
+.reg_form label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+
+
+.bad_input {
+    border-color: red !important;
+}
+
+.reg_form input[type=text], input[type=password], input[type=email] {
+    width: 100%;
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    box-sizing: border-box;
+}
+
+
+.reg_form button, input[type="button"], input[type="submit"] {
+  display: inline-block;
+  width: 100%;
+  padding: 15px 25px;
+  margin-top: 100px;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: white;
+  background-color: #008CBA;
+  border: none;
+  box-shadow: 0 2px #999;
+}
