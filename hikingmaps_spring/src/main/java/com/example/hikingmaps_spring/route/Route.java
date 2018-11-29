@@ -1,9 +1,7 @@
 package com.example.hikingmaps_spring.route;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.persistence.*;
-import javax.validation.Valid;
 import java.util.List;
 
 @Entity(name = "Route")
@@ -12,7 +10,7 @@ public class Route {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
     private long id;
-    @OneToMany
+    @ElementCollection
     @JsonProperty("points")
     private List<String> points;
 
