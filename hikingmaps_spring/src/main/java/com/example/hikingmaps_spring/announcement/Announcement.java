@@ -1,18 +1,14 @@
 package com.example.hikingmaps_spring.announcement;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
 import com.example.hikingmaps_spring.user.User;
-
-import static java.util.Collections.emptyList;
 
 @Entity
 public class Announcement {
@@ -26,8 +22,6 @@ public class Announcement {
 	private String destination;
 	private String description;
 	private Date date;
-	@ManyToMany
-	private List<User> interested;
 
 	public Announcement() {
 
@@ -40,7 +34,15 @@ public class Announcement {
 		this.destination = destination;
 		this.description = description;
 		this.date = date;
-		interested = emptyList();
+	}
+
+	public Announcement(Announcement announcement) {
+		this.id = announcement.id;
+		this.title = announcement.title;
+		this.start = announcement.start;
+		this.destination = announcement.destination;
+		this.description = announcement.description;
+		this.date = announcement.date;
 	}
 
 	public long getId() {
@@ -89,10 +91,6 @@ public class Announcement {
 
 	public void setDate(Date date) {
 		this.date = date;
-	}
-
-	public List<User> getInterested() {
-		return interested;
 	}
 
 	public User getOwner() {
