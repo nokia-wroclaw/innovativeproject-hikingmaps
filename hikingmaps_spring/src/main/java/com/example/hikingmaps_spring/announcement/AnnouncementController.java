@@ -3,6 +3,7 @@ package com.example.hikingmaps_spring.announcement;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -24,34 +25,51 @@ public class AnnouncementController {
 	public AnnouncementController(AnnouncementService service) {
 		this.service = service;
 	}
-	
+
+	@GetMapping("/my")
+	public ResponseEntity<List<Pair<Announcement, List<Pair<String, Boolean>>>>> getMy(Authentication authentication) {
+		return new ResponseEntity<>(service.getMy(authentication.getName()), HttpStatus.OK);
+	}
+
 	@GetMapping("/all")
 	public ResponseEntity<List<Announcement>> getAll() {
 		return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
 	}
-	
+
 	@PatchMapping("/edit")
 	public ResponseEntity<Void> edit(Authentication authentication, @RequestBody Announcement announcement) {
 		service.edit(authentication.getName(), announcement);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/delete")
-	public ResponseEntity<Void> delete(Authentication authentication, @RequestParam long annId) {
+	public ResponseEntity<Void> delete(Authentication authentication, @RequestParam("annId") long annId) {
 		service.delete(authentication.getName(), annId);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/add")
 	public ResponseEntity<Void> add(Authentication authentication, @RequestBody Announcement announcement) {
 		service.add(authentication.getName(), announcement);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/interest")
-	public ResponseEntity<Void> interest(Authentication authentication, @RequestParam long annId) {
+	public ResponseEntity<Void> interest(Authentication authentication, @RequestParam("annId") long annId) {
 		service.interest(authentication.getName(), annId);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
-	
+
+	@GetMapping("/interest/my")
+	public ResponseEntity<List<Pair<Announcement, Boolean>>> myInterests(Authentication authentication) {
+		return new ResponseEntity<>(service.myInterests(authentication.getName()), HttpStatus.OK);
+	}
+
+	@PostMapping("/interest/accept")
+	public ResponseEntity<Void> acceptInterest(Authentication authentication, @RequestParam("username") String username,
+			@RequestParam("annId") long annId) {
+		service.acceptInterest(authentication.getName(), username, annId);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+
 }
