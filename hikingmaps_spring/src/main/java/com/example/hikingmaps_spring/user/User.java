@@ -9,7 +9,7 @@ import javax.validation.constraints.Email;
 @Entity
 public class User {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String login;
 	private String password;
@@ -24,6 +24,10 @@ public class User {
 		this.login = login;
 		this.password = password;
 		this.email = email;
+	}
+
+	public User(String login) {
+		this.login = login;
 	}
 
 	public long getId() {
@@ -49,7 +53,7 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 	public boolean isAdmin() {
 		return admin;
 	}
