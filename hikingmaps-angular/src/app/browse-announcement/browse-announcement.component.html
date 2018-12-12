@@ -4,15 +4,18 @@
     <p-header>
       <div class="ui-helper-clearfix">
         <div class="ui-g">
-          <div class="ui-g-12 ui-md-4">
-            <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sortuj" (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}"></p-dropdown>
+          <div class="ui-g-12 ui-md-3">
+            <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort by" (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}"></p-dropdown>
           </div>
-          <div class="ui-g-6 ui-md-4 filter-container">
+          <div class="ui-g-6 ui-md-3 filter-container">
             <div style="position:relative">
-              <input type="search" pInputText placeholder="Szukaj" (keyup)="dv.filter($event.target.value)">
+              <input type="search" pInputText placeholder="Search" (keyup)="dv.filter($event.target.value)">
             </div>
           </div>
-          <div class="ui-g-6 ui-md-4" style="text-align:right">
+          <div class="ui-g-6 ui-md-3" style="text-align:left">
+            <p-selectButton [options]="types" [(ngModel)]="selectedType" (onChange)="onTypeChange($event)" ></p-selectButton>
+          </div>
+          <div class="ui-g-6 ui-md-3" style="text-align:right">
             <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
           </div>
         </div>
