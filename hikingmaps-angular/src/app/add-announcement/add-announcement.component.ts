@@ -36,7 +36,7 @@ export class AddAnnouncementComponent implements OnInit {
       }, (error) => {
         // send message about error
         this.messageService.add({ severity: 'error', summary: 'Error',
-          detail: (error.message) ? error.message : error.statusText });
+          detail: (error.error.message) ? error.error.message : error.statusText });
       });
   }
 

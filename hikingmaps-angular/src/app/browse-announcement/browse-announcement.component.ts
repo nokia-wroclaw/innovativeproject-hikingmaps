@@ -28,16 +28,11 @@ export class BrowseAnnouncementComponent implements OnInit {
 
   sortOrder: number;
 
-  types: SelectItem[];
-
-  selectedType: string;
-
   constructor(
     private announcementService: AnnouncementService,
     private messageService: MessageService,
-    private router: Router,
-  )
-  {}
+    private router: Router
+  ) { }
 
 
   ngOnInit() {
@@ -53,14 +48,6 @@ export class BrowseAnnouncementComponent implements OnInit {
           }
         }
       });
-
-    this.types = [
-      {label:'Select City', value:null},
-      {label:'New York', value:{id:1, name: 'New York', code: 'NY'}},
-      {label:'Rome', value:{id:2, name: 'Rome', code: 'RM'}},
-      {label:'London', value:{id:3, name: 'London', code: 'LDN'}},
-    ];
-
     this.items = [
       {
         label: 'User',
@@ -80,7 +67,7 @@ export class BrowseAnnouncementComponent implements OnInit {
     ];
 
     this.sortOptions = [
-      {label: 'Most recent', value: '!date'},
+      {label: 'Najnowsze', value: '!date'},
       {label: 'Najstarsze', value: 'date'}
     ];
   }
@@ -118,11 +105,5 @@ export class BrowseAnnouncementComponent implements OnInit {
       this.messageService.add({ severity: 'error', summary: 'Error',
         detail: (error.error.message) ? error.error.message : error.statusText });
     });
-  }
-
-
-  onTypeChange(event) {
-    const value = event.value;
-    alert(value);
   }
 }
