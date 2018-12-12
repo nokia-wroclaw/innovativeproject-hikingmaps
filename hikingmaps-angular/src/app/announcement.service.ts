@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Announcement } from 'src/app/announcement';
+import { Announcement } from '../app/announcement';
 import { environment } from '../environments/environment';
 import { SessionService } from './session.service';
 

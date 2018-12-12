@@ -1,1 +1,9 @@
-<Button text="browse-announcement works!" class="btn btn-primary"></Button>
+<StackLayout>
+  <StackLayout *ngFor="let announcement of announcements" >
+    <Label [text]="announcement.title"></Label>
+    <Label [text]="announcement.date"></Label>
+    <Label [text]="announcement.start"></Label>
+    <Label [text]="announcement.destination"></Label>
+
+  </StackLayout>
+</StackLayout>
