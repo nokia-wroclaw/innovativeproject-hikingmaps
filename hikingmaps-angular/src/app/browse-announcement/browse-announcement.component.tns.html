@@ -1,9 +1,9 @@
 <StackLayout>
+  <Button text="Add" (tap)='handleAdd()'></Button>
   <StackLayout *ngFor="let announcement of announcements" >
     <Label [text]="announcement.title"></Label>
     <Label [text]="announcement.date"></Label>
     <Label [text]="announcement.start"></Label>
     <Label [text]="announcement.destination"></Label>
-
   </StackLayout>
 </StackLayout>

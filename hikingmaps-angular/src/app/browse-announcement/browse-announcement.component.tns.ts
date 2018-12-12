@@ -39,20 +39,15 @@ export class BrowseAnnouncementComponent implements OnInit {
           if (m) {
             const h = (parseInt(m[4], 10) + 1) % 24; // add 1 cause poland is in such timezone
             this.announcements[i].date = `${m[1]}/${m[2]}/${m[3]} ${h}:${m[5]}`;
+          } else {
+            this.announcements[i].date = `Date parse error: ${this.announcements[i].date}`;
           }
         }
       });
   }
 
-  selectAnnouncement(event: Event, announcement: Announcement) {
-    this.selectedAnnouncement = announcement;
-    this.displayDialog = true;
-    event.preventDefault();
-  }
-
-
-  onDialogHide() {
-    this.selectedAnnouncement = null;
+  handleAdd() {
+    this.router.navigate(['/add']);
   }
 
   selectAsInterested(announcemnt: Announcement) {

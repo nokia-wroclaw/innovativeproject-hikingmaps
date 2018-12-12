@@ -1,1 +1,15 @@
-<Button text="add-announcement works!" class="btn btn-primary"></Button>
+<ScrollView orientation="vertical">
+  <StackLayout>
+    <Label text="Title"></Label>
+    <TextField autofocus required [(ngModel)]="title"></TextField>
+    <Label text="Start"></Label>
+    <TextField required [(ngModel)]="start"></TextField>
+    <Label text="Destination"></Label>
+    <TextField required [(ngModel)]="dest"></TextField>
+    <DatePicker  (dateChange)="onDateChanged($event)"></DatePicker>
+    <TimePicker></TimePicker>
+    <Label text="Description"></Label>
+    <TextView [(ngModel)]="description"></TextView>
+    <Button text="Add" (tap)='handleAdd()'></Button>
+  </StackLayout>
+</ScrollView>
