@@ -102,8 +102,8 @@ export class BrowseAnnouncementComponent implements OnInit {
     this.announcementService.getAllAnnouncements()
       .subscribe( data => {
         this.announcements = data;
+        this.convertDate();
       });
-    this.convertDate();
     this.showInterested = true;
     this.showConfirm = false;
     this.showOptions = false;
@@ -119,8 +119,8 @@ export class BrowseAnnouncementComponent implements OnInit {
             this.announcements.push(data[i].first);
             this.acceptationStates.push({id: data[i].first.id, states: data[i].second});
         }
+        this.convertDate();
       });
-    this.convertDate();
     this.showInterested = false;
     this.showConfirm = true;
     this.showOptions = true;
@@ -136,8 +136,8 @@ export class BrowseAnnouncementComponent implements OnInit {
           this.announcements[this.announcements.length - 1].status = data[i].second;
           console.log(this.announcements[this.announcements.length - 1]);
         }
+        this.convertDate();
       });
-    this.convertDate();
     this.showInterested = false;
     this.showConfirm = false;
     this.showOptions = false;
