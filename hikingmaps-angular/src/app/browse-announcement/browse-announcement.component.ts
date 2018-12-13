@@ -14,6 +14,7 @@ import {SelectItem} from 'primeng/api';
 export class BrowseAnnouncementComponent implements OnInit {
 
   announcements: Announcement[];
+
   items: MenuItem[];
 
   selectedAnnouncement: Announcement;
@@ -28,6 +29,10 @@ export class BrowseAnnouncementComponent implements OnInit {
 
   sortOrder: number;
 
+  displayTypes: SelectItem[];
+
+  selectedType: string;
+
   constructor(
     private announcementService: AnnouncementService,
     private messageService: MessageService,
@@ -36,18 +41,14 @@ export class BrowseAnnouncementComponent implements OnInit {
 
 
   ngOnInit() {
-    this.announcementService.getAnnouncements()
-      .subscribe( data => {
-        this.announcements = data;
-        const re = /(\d+)\-(\d+)\-(\d+)T(\d+):(\d+):(\d+)/;
-        for (let i = 0; i < this.announcements.length; i++) {
-          const m = this.announcements[i].date.match(re);
-          if (m) {
-            const h = (parseInt(m[4], 10) + 1) % 24; // add 1 cause poland is in such timezone
-            this.announcements[i].date = `${m[1]}/${m[2]}/${m[3]} ${h}:${m[5]}`;
-          }
-        }
-      });
+    this.getAllAnnouncements();
+    this.displayTypes = [
+
+      {label:'All', icon: 'pi pi-fw pi-question', value: { command: (onclick) => {this.getAllAnnouncements(); }}},
+      {label:'Intresting', icon: 'pi pi-fw pi-question', value: { command: (onclick) => {this.getInterestingAnnouncements(); }}},
+      {label:'My', icon: 'pi pi-fw pi-question', value: { command: (onclick) => {this.getMyAnnouncements(); }}},
+    ];
+
     this.items = [
       {
         label: 'User',
@@ -70,6 +71,51 @@ export class BrowseAnnouncementComponent implements OnInit {
       {label: 'Najnowsze', value: '!date'},
       {label: 'Najstarsze', value: 'date'}
     ];
+  }
+  getAllAnnouncements() {
+    this.announcements = [];
+    this.announcementService.getAllAnnouncements()
+      .subscribe( data => {
+        this.announcements = data;
+        //   this.convertDate();
+      });
+    this.convertDate();
+  }
+
+  getMyAnnouncements() {
+
+    this.announcements = [];
+    this.announcementService.getMyAnnouncements()
+      .subscribe( data => {
+        for (let i = 0; i < data.length; i++) {
+            this.announcements.push(data[i].first);
+        }
+      });
+    this.convertDate();
+  }
+
+  getInterestingAnnouncements() {
+    this.announcements = [];
+    this.announcementService.getInterestingAnnouncements()
+      .subscribe( data => {
+        for (let i = 0; i < data.length; i++) {
+          this.announcements.push(data[i].first);
+        }
+      });
+    this.convertDate();
+  }
+
+  convertDate() {
+    const re = /(\d+)\-(\d+)\-(\d+)T(\d+):(\d+):(\d+)/;
+    for (let i = 0; i < this.announcements.length; i++) {
+      if (this.announcements[i].date != null) {
+        const m = this.announcements[i].date.match(re);
+        if (m) {
+          const h = (parseInt(m[4], 10) + 1) % 24; // add 1 cause poland is in such timezone
+          this.announcements[i].date = `${m[1]}/${m[2]}/${m[3]} ${h}:${m[5]}`;
+        }
+      }
+    }
   }
 
   selectAnnouncement(event: Event, announcement: Announcement) {
@@ -105,5 +151,9 @@ export class BrowseAnnouncementComponent implements OnInit {
       this.messageService.add({ severity: 'error', summary: 'Error',
         detail: (error.error.message) ? error.error.message : error.statusText });
     });
+  }
+
+  onTypeChange(event){
+    alert(event.value.command());
   }
 }

@@ -14,9 +14,17 @@ export class AnnouncementService {
     private auth: SessionService
   ) { }
 
-  getAnnouncements() {
+  getAllAnnouncements() {
     const key = this.auth.getKey();
     return this.http.get<Announcement[]>(`${environment.apiUrl}/sec/ann/all`, { headers: { 'authorization': key } });
+  }
+  getMyAnnouncements() {
+    const key = this.auth.getKey();
+    return this.http.get<Array<any>>(`${environment.apiUrl}/sec/ann/my`, { headers: { 'authorization': key } });
+  }
+  getInterestingAnnouncements() {
+    const key = this.auth.getKey();
+    return this.http.get<Array<any>>(`${environment.apiUrl}/sec/ann/interest/my`, { headers: { 'authorization': key } });
   }
   public addAnnouncement(title: string, start: string, destination: string, description: string, date: string) {
     const key = this.auth.getKey();
