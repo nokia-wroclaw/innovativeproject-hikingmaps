@@ -27,7 +27,8 @@ public class AnnouncementController {
 	}
 
 	@GetMapping("/my")
-	public ResponseEntity<List<Pair<Announcement, List<Pair<String, Boolean>>>>> getMy(Authentication authentication) {
+	public ResponseEntity<List<Pair<Announcement, List<Pair<String, InterestStatus>>>>> getMy(
+			Authentication authentication) {
 		return new ResponseEntity<>(service.getMy(authentication.getName()), HttpStatus.OK);
 	}
 
@@ -35,6 +36,13 @@ public class AnnouncementController {
 	public ResponseEntity<List<Announcement>> getAll() {
 		return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
 	}
+	
+	//TODO details
+	/*@GetMapping("/details")
+	public ResponseEntity<Announcement> details(@RequestParam("annId") long annId) {
+		return new ResponseEntity<Announcement>(service.details(annId), HttpStatus.OK);
+	}*/
+	
 
 	@PatchMapping("/edit")
 	public ResponseEntity<Void> edit(Authentication authentication, @RequestBody Announcement announcement) {
@@ -61,7 +69,7 @@ public class AnnouncementController {
 	}
 
 	@GetMapping("/interest/my")
-	public ResponseEntity<List<Pair<Announcement, Boolean>>> myInterests(Authentication authentication) {
+	public ResponseEntity<List<Pair<Announcement, InterestStatus>>> myInterests(Authentication authentication) {
 		return new ResponseEntity<>(service.myInterests(authentication.getName()), HttpStatus.OK);
 	}
 
@@ -69,6 +77,19 @@ public class AnnouncementController {
 	public ResponseEntity<Void> acceptInterest(Authentication authentication, @RequestParam("username") String username,
 			@RequestParam("annId") long annId) {
 		service.acceptInterest(authentication.getName(), username, annId);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+
+	@PostMapping("/interest/reject")
+	public ResponseEntity<Void> rejectInterest(Authentication authentication, @RequestParam("username") String username,
+			@RequestParam("annId") long annId) {
+		service.rejectInterest(authentication.getName(), username, annId);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+
+	@PostMapping("/interest/revoke")
+	public ResponseEntity<Void> revokeInterest(Authentication authentication, @RequestParam("annId") long annId) {
+		service.revokeInterest(authentication.getName(), annId);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
