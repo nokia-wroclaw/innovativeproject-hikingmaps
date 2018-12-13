@@ -223,7 +223,16 @@ export class BrowseAnnouncementComponent implements OnInit {
 
   handleChanges() {
     console.log(this.modifiedAnnouncement);
-    this.announcementService.changeMyAnnouncement(this.modifiedAnnouncement.id, this.modifiedAnnouncement.title, this.modifiedAnnouncement.start, this.modifiedAnnouncement.destination, this.modifiedAnnouncement.description, this.modifiedAnnouncement.date)
+    const re = /(\d+)\/(\d+)\/(\d+) (\d+):(\d+)/;
+    let mod = this.modifiedAnnouncement.date;
+    if (mod) {
+      const m = mod.match(re);
+      if (m) {
+        const h = (parseInt(m[4], 10) + 23) % 24;
+        mod = `${m[1]}-${m[2]}-${m[3]}T${h}:${m[5]}:00.000+0000`;
+      }
+    }
+    this.announcementService.changeMyAnnouncement(this.modifiedAnnouncement.id, this.modifiedAnnouncement.title, this.modifiedAnnouncement.start, this.modifiedAnnouncement.destination, this.modifiedAnnouncement.description, mod)
       .subscribe(() => {
         this.messageService.add({ severity: 'success', summary: 'Succes', detail: 'Announcement changed succesfully' });
       }, (error) => {
@@ -231,6 +240,7 @@ export class BrowseAnnouncementComponent implements OnInit {
         this.messageService.add({ severity: 'error', summary: 'Error',
           detail: (error.error.message) ? error.error.message : error.statusText });
       });
+
   }
 
   handleDelete() {
