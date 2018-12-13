@@ -14,6 +14,8 @@ import com.example.hikingmaps_spring.user.UserRepository;
 
 import org.springframework.context.annotation.Bean;
 
+import java.util.Arrays;
+
 @EnableWebSecurity
 public class ApiSecurity extends WebSecurityConfigurerAdapter {
 	private UserDetailsServiceImpl userDetailsService;
@@ -47,6 +49,7 @@ public class ApiSecurity extends WebSecurityConfigurerAdapter {
 		CorsConfiguration config = new CorsConfiguration();
 		config.applyPermitDefaultValues();
         config.addExposedHeader("authorization");
+		config.setAllowedMethods(Arrays.asList("GET","POST","DELETE","PATCH"));
         source.registerCorsConfiguration("/**", config);
         return source;
 	}

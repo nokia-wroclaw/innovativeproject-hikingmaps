@@ -24,6 +24,7 @@ import { DialogModule} from 'primeng/primeng';
 import { ButtonModule} from 'primeng/primeng';
 import { AddAnnouncementComponent } from './add-announcement/add-announcement.component';
 import {SelectButtonModule} from 'primeng/selectbutton';
+import {ListboxModule} from 'primeng/listbox';
 
 
 
@@ -55,7 +56,8 @@ import {SelectButtonModule} from 'primeng/selectbutton';
     DialogModule,
     BrowserAnimationsModule,
     ButtonModule,
-    SelectButtonModule
+    SelectButtonModule,
+    ListboxModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

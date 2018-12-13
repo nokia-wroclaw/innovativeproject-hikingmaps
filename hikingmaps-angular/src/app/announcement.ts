@@ -5,4 +5,5 @@ export interface Announcement {
     start;
     destination;
     date;
+    status;
 }
