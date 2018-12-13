@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import com.example.hikingmaps_spring.announcement.exceptions.AlreadyLikedException;
 import com.example.hikingmaps_spring.announcement.exceptions.AnnouncementDoesnExistException;
+import com.example.hikingmaps_spring.announcement.exceptions.AnnouncementExistsException;
 import com.example.hikingmaps_spring.announcement.exceptions.AnnouncementOwnerMismatchException;
+import com.example.hikingmaps_spring.announcement.exceptions.InterestRevocationNotAllowedException;
 import com.example.hikingmaps_spring.announcement.exceptions.NoSuchInterestException;
 import com.example.hikingmaps_spring.user.User;
 import com.example.hikingmaps_spring.user.UserService;
@@ -41,16 +43,16 @@ public class AnnouncementService {
 		return list;
 	}
 
-	public List<Pair<Announcement, List<Pair<String, Boolean>>>> getMy(String username) {
+	public List<Pair<Announcement, List<Pair<String, InterestStatus>>>> getMy(String username) {
 		Optional<User> optUser = userService.getByLogin(username);
 		User user = optUser.orElseThrow(UserDoesntExistException::new);
-		List<Pair<Announcement, List<Pair<String, Boolean>>>> list = new ArrayList<Pair<Announcement, List<Pair<String, Boolean>>>>();
+		List<Pair<Announcement, List<Pair<String, InterestStatus>>>> list = new ArrayList<Pair<Announcement, List<Pair<String, InterestStatus>>>>();
 		Announcement announcement;
-		List<Pair<String, Boolean>> interestedList;
+		List<Pair<String, InterestStatus>> interestedList;
 		for (Announcement ann : announcementRepository.findByOwner(user)) {
-			interestedList = new ArrayList<Pair<String, Boolean>>();
+			interestedList = new ArrayList<Pair<String, InterestStatus>>();
 			for (Interest i : interestRepository.findByAnnouncement(ann))
-				interestedList.add(Pair.of(i.getUser().getLogin(), i.isAccepted()));
+				interestedList.add(Pair.of(i.getUser().getLogin(), i.status()));
 			announcement = new Announcement(ann);
 			announcement.setOwner(new User(username));
 			list.add(Pair.of(announcement, interestedList));
@@ -59,6 +61,8 @@ public class AnnouncementService {
 	}
 
 	public void add(String owner, Announcement announcement) {
+		if (announcementRepository.findById(announcement.getId()).isPresent())
+			throw new AnnouncementExistsException();
 		User user = userService.getByLogin(owner).orElseThrow(UserDoesntExistException::new);
 		announcement.setOwner(user);
 		announcementRepository.save(announcement);
@@ -97,16 +101,16 @@ public class AnnouncementService {
 		interestRepository.save(new Interest(user, ann));
 	}
 
-	public List<Pair<Announcement, Boolean>> myInterests(String username) {
+	public List<Pair<Announcement, InterestStatus>> myInterests(String username) {
 		Optional<User> optUser = userService.getByLogin(username);
 		User user = optUser.get();
-		List<Pair<Announcement, Boolean>> list = new ArrayList<Pair<Announcement, Boolean>>();
+		List<Pair<Announcement, InterestStatus>> list = new ArrayList<Pair<Announcement, InterestStatus>>();
 		List<Interest> interestList = interestRepository.findByUser(user);
 		Announcement ann;
 		for (Interest i : interestList) {
 			ann = new Announcement(i.getAnnouncement());
 			ann.setOwner(new User(i.getAnnouncement().getOwner().getLogin()));
-			list.add(Pair.of(ann, i.isAccepted()));
+			list.add(Pair.of(ann, i.status()));
 		}
 		return list;
 	}
@@ -122,11 +126,43 @@ public class AnnouncementService {
 		User user = optUser.orElseThrow(UserDoesntExistException::new);
 		for (Interest i : interestRepository.findByAnnouncement(ann))
 			if (i.getUser().getId() == user.getId()) {
-				i.setAccepted(true);
+				i.setStatus(InterestStatus.ACCEPTED);
 				interestRepository.save(i);
 				return;
 			}
 		throw new NoSuchInterestException();
 	}
 
+	public void rejectInterest(String requesterName, String username, long annId) {
+		Optional<User> optUser = userService.getByLogin(requesterName);
+		User requester = optUser.orElseThrow(UserDoesntExistException::new);
+		Optional<Announcement> optAnn = announcementRepository.findById(annId);
+		Announcement ann = optAnn.orElseThrow(AnnouncementDoesnExistException::new);
+		if (requester.getId() != ann.getOwner().getId())
+			throw new AnnouncementOwnerMismatchException();
+		optUser = userService.getByLogin(username);
+		User user = optUser.orElseThrow(UserDoesntExistException::new);
+		for (Interest i : interestRepository.findByAnnouncement(ann))
+			if (i.getUser().getId() == user.getId()) {
+				i.setStatus(InterestStatus.REJECTED);
+				interestRepository.save(i);
+				return;
+			}
+		throw new NoSuchInterestException();
+	}
+
+	public void revokeInterest(String requesterName, long annId) {
+		Optional<User> optUser = userService.getByLogin(requesterName);
+		User requester = optUser.orElseThrow(UserDoesntExistException::new);
+		Optional<Announcement> optAnn = announcementRepository.findById(annId);
+		Announcement ann = optAnn.orElseThrow(AnnouncementDoesnExistException::new);
+		for (Interest i : interestRepository.findByAnnouncement(ann))
+			if (i.getUser().getId() == requester.getId()) {
+				if (i.status() == InterestStatus.REJECTED)
+					throw new InterestRevocationNotAllowedException();
+				interestRepository.delete(i);
+				return;
+			}
+		throw new NoSuchInterestException();
+	}
 }
