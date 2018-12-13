@@ -17,7 +17,7 @@ public class Interest {
 	private User user;
 	@OneToOne
 	private Announcement announcement;
-	private boolean accepted;
+	private InterestStatus status;
 
 	public Interest() {
 
@@ -26,7 +26,7 @@ public class Interest {
 	public Interest(User user, Announcement announcement) {
 		this.user = user;
 		this.announcement = announcement;
-		this.accepted = false;
+		this.status = InterestStatus.PENDING;
 	}
 
 	public long getId() {
@@ -41,11 +41,11 @@ public class Interest {
 		return announcement;
 	}
 
-	public void setAccepted(boolean accept) {
-		this.accepted = accept;
+	public void setStatus(InterestStatus status) {
+		this.status = status;
 	}
 
-	public boolean isAccepted() {
-		return accepted;
+	public InterestStatus status() {
+		return status;
 	}
 }
