@@ -9,13 +9,13 @@
           </div>
           <div class="ui-g-6 ui-md-4 filter-container">
             <div style="text-align:center">
-              <input pinputtext placeholder="Szukaj" type="search" class="ui-inputtext ui-corner-all ui-state-default ui-widget">
+              <input pinputtext placeholder="Szukaj" type="search" class="ui-inputtext ui-corner-all ui-state-default ui-widget" (keyup)="dv.filter($event.target.value)">
             </div>
           </div>
-          <div class="ui-g-12 ui-md-2">
+          <div class="ui-g-12 ui-md-3">
             <p-selectButton [options]="displayTypes" [(ngModel)]="selectedType" (onChange)="$event.value.command()"></p-selectButton>
           </div>
-          <div class="ui-g-6 ui-md-2" style="text-align:right">
+          <div class="ui-g-6 ui-md-1" style="text-align:right">
             <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
           </div>
         </div>
