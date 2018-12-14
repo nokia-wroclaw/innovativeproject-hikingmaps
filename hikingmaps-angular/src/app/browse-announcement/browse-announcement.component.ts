@@ -69,9 +69,9 @@ export class BrowseAnnouncementComponent implements OnInit {
 
     this.displayTypes = [
 
-      {label: 'All', icon: 'pi pi-fw pi-question', value: { command: (onclick) => {this.getAllAnnouncements(); }}},
-      {label: 'Interesting', icon: 'pi pi-fw pi-question', value: { command: (onclick) => {this.getInterestingAnnouncements(); }}},
-      {label: 'My', icon: 'pi pi-fw pi-question', value: { command: (onclick) => {this.getMyAnnouncements(); }}},
+      {label: 'All', icon: 'pi pi-fw pi-search', value: { command: (onclick) => {this.getAllAnnouncements(); }}},
+      {label: 'Interesting', icon: 'pi pi-fw pi-users', value: { command: (onclick) => {this.getInterestingAnnouncements(); }}},
+      {label: '\u0020 My', icon: 'pi pi-fw pi-home', value: { command: (onclick) => {this.getMyAnnouncements(); }}},
     ];
 
     this.items = [
@@ -79,8 +79,8 @@ export class BrowseAnnouncementComponent implements OnInit {
         label: 'User',
         icon: 'pi pi-fw pi-user',
         items: [
-          {label: 'Login', icon: 'pi pi-fw pi-question', command: (onclick) => {this.router.navigate(['/login']); } },
-          {label: 'Register', icon: 'pi pi-fw pi-question', command: (onclick) => {this.router.navigate(['/register']); } }
+          {label: 'Login', icon: 'pi pi-fw pi-user', command: (onclick) => {this.router.navigate(['/login']); } },
+          {label: 'Register', icon: 'pi pi-fw pi-user-plus', command: (onclick) => {this.router.navigate(['/register']); } }
         ]
       },
       {
