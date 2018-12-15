@@ -17,6 +17,7 @@ import { MapsComponent } from './maps/maps.component';
 import { BrowseAnnouncementComponent } from './browse-announcement/browse-announcement.component';
 import {AddAnnouncementComponent} from './add-announcement/add-announcement.component';
 import {EditRoutesComponent} from './edit-routes/edit-routes.component';
+import { AddRouteComponent } from './add-route/add-route.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import {EditRoutesComponent} from './edit-routes/edit-routes.component';
     LoginComponent,
     BrowseAnnouncementComponent,
     AddAnnouncementComponent,
-    EditRoutesComponent
+    EditRoutesComponent,
+    AddRouteComponent
   ],
   imports: [
     NativeScriptModule,

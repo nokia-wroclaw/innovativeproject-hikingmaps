@@ -26,6 +26,7 @@ import { AddAnnouncementComponent } from './add-announcement/add-announcement.co
 import {SelectButtonModule} from 'primeng/selectbutton';
 import {ListboxModule} from 'primeng/listbox';
 import {EditRoutesComponent} from './edit-routes/edit-routes.component';
+import { AddRouteComponent } from './add-route/add-route.component';
 
 
 
@@ -38,7 +39,8 @@ import {EditRoutesComponent} from './edit-routes/edit-routes.component';
     LoginComponent,
     BrowseAnnouncementComponent,
     AddAnnouncementComponent,
-    EditRoutesComponent
+    EditRoutesComponent,
+    AddRouteComponent
   ],
   imports: [
     BrowserModule,

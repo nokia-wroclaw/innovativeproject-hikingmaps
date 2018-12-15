@@ -89,6 +89,13 @@ export class BrowseAnnouncementComponent implements OnInit {
         items: [
           {label: 'Add', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/add']); } },
         ]
+      },
+      {
+        label: 'Admin',
+        icon: 'pi pi-fw pi-key',
+        items: [
+          {label: 'Add route', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/routes']); } },
+        ]
       }
     ];
 

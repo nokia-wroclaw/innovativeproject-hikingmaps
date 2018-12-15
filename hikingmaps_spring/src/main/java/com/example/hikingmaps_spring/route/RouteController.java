@@ -30,7 +30,7 @@ public class RouteController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Void> deleteRoute(Authentication authentication, @RequestBody long routeId) {
+    public ResponseEntity<Void> deleteRoute(Authentication authentication, @RequestParam("routeId") long routeId) {
         service.deleteRoute(authentication.getName(), routeId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
