@@ -5,10 +5,10 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-route',
-  templateUrl: './add-route.component.html',
-  styleUrls: ['./add-route.component.css']
+  templateUrl: './route.component.html',
+  styleUrls: ['./route.component.css']
 })
-export class AddRouteComponent implements OnInit {
+export class RouteComponent implements OnInit {
 
   public points = '';
 
