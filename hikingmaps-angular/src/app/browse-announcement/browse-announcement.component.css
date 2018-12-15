@@ -6,7 +6,4 @@ html, body, #map {
   height: 100%;
   width: 100vw;
 }
-#mapid {
-  height: 600px;
-  width: 600px;
-}
+#mapid { height: 680px; }

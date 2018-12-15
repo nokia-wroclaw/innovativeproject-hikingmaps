@@ -2,6 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import * as Leaflet from 'leaflet';
 import 'leaflet-draw';
+import { Router } from '@angular/router';
+import {MenuItem} from 'primeng/api';
+
 
 @Component({
   selector: 'app-edit-routes',
@@ -13,8 +16,36 @@ export class EditRoutesComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   private drawnItems;
+  items: MenuItem[];
+  private router: Router;
 
   ngOnInit() {
+
+    this.items = [
+      {
+        label: 'User',
+        icon: 'pi pi-fw pi-user',
+        items: [
+          {label: 'Login', icon: 'pi pi-fw pi-user', command: (onclick) => {this.router.navigate(['/login']); } },
+          {label: 'Register', icon: 'pi pi-fw pi-user-plus', command: (onclick) => {this.router.navigate(['/register']); } }
+        ]
+      },
+      {
+        label: 'Announcement',
+        icon: 'pi pi-fw pi-pencil',
+        items: [
+          {label: 'Add', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/add']); } },
+        ]
+      },
+      {
+        label: 'Admin',
+        icon: 'pi pi-fw pi-key',
+        items: [
+          {label: 'Add route', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/routes']); }}
+        ]
+      }
+    ];
+
     const map = Leaflet.map('mapid').setView([49.6563, 18.8902], 14);
     Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
@@ -54,5 +85,17 @@ export class EditRoutesComponent implements OnInit {
     });
     return paths;
   }
+
+  /*sendRoute() {
+    this.RouteService.addRoute(this.modifiedAnnouncement.id, this.modifiedAnnouncement.title, this.modifiedAnnouncement.start, this.modifiedAnnouncement.destination, this.modifiedAnnouncement.description, mod)
+      .subscribe(() => {
+        this.messageService.add({ severity: 'success', summary: 'Succes', detail: 'Route added succesfully' });
+      }, (error) => {
+        // send message about error
+        this.messageService.add({ severity: 'error', summary: 'Error',
+          detail: (error.error.message) ? error.error.message : error.statusText });
+      });
+
+  }*/
 }
 

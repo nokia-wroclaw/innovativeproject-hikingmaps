@@ -5,11 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user")
 public class UserController {
 	private UserService service;
 
@@ -18,9 +16,13 @@ public class UserController {
 		this.service = service;
 	}
 
-	@PostMapping("/register")
-	public ResponseEntity<Void> register(@RequestBody User user) {
+	@PostMapping("/user/register")
+	public ResponseEntity<Void> register(@RequestBody UserDto user) {
 		service.register(user);
 		return new ResponseEntity<Void>(HttpStatus.CREATED);
+	}
+	@PostMapping("/user/login")
+	public ResponseEntity<Void> login(@RequestBody User user) {
+		return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
 	}
 }

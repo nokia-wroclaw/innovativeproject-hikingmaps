@@ -1,14 +1,22 @@
+import { MessageService } from 'primeng/api';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { NativeScriptModule } from 'nativescript-angular/nativescript.module';
-
+import { ToastModule } from 'primeng/toast';
 import { AppRoutingModule } from './app-routing.module.tns';
-import { AppComponent } from './app.component';
-import { HelloComponent } from './hello/hello.component';
 import { NativeScriptHttpClientModule } from 'nativescript-angular/http-client';
 import { NativeScriptFormsModule } from 'nativescript-angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DataViewModule } from 'primeng/dataview';
+import {MenubarModule} from 'primeng/menubar';
+
+import { AppComponent } from './app.component';
+import { HelloComponent } from './hello/hello.component';
 import { RegisterComponent } from './register/register.component';
-import {MapsComponent} from './maps/maps.component';
-import { EditRoutesComponent } from './edit-routes/edit-routes.component';
+import { LoginComponent } from './login/login.component';
+import { MapsComponent } from './maps/maps.component';
+import { BrowseAnnouncementComponent } from './browse-announcement/browse-announcement.component';
+import {AddAnnouncementComponent} from './add-announcement/add-announcement.component';
+import {EditRoutesComponent} from './edit-routes/edit-routes.component';
 
 
 @NgModule({
@@ -17,15 +25,22 @@ import { EditRoutesComponent } from './edit-routes/edit-routes.component';
     HelloComponent,
     RegisterComponent,
     MapsComponent,
+    LoginComponent,
+    BrowseAnnouncementComponent,
+    AddAnnouncementComponent,
     EditRoutesComponent
   ],
   imports: [
     NativeScriptModule,
     AppRoutingModule,
     NativeScriptHttpClientModule,
-    NativeScriptFormsModule
+    NativeScriptFormsModule,
+    BrowserAnimationsModule,
+    ToastModule,
+    DataViewModule,
+    MenubarModule,
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent],
   schemas: [NO_ERRORS_SCHEMA]
 })
