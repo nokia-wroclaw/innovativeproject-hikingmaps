@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/sec/route")
+@RequestMapping("/admin/route")
 public class RouteController {
     private RouteService service;
 

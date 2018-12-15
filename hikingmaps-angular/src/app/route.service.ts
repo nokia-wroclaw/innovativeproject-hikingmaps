@@ -16,17 +16,17 @@ export class RouteService {
 
   getAllRoutes() {
     const key = this.auth.getKey();
-    return this.http.get<Route[]>(`${environment.apiUrl}/sec/route/all`, { headers: { 'authorization': key } });
+    return this.http.get<Route[]>(`${environment.apiUrl}/admin/route/all`, { headers: { 'authorization': key } });
   }
 
   public addRoute(points: string) {
     const key = this.auth.getKey();
-    return this.http.post(`${environment.apiUrl}/sec/route/add`,
+    return this.http.post(`${environment.apiUrl}/admin/route/add`,
       { points }, { headers: { 'authorization': key } });
   }
 
   deleteRoute(id: String) {
     const key = this.auth.getKey();
-    return this.http.delete(`${environment.apiUrl}/sec/route/delete?routeId=${id}`, { headers: { 'authorization': key } });
+    return this.http.delete(`${environment.apiUrl}/admin/route/delete?routeId=${id}`, { headers: { 'authorization': key } });
   }
 }
