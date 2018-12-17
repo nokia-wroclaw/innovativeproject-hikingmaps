@@ -77,8 +77,6 @@ export class EditRoutesComponent implements OnInit {
     map.on('draw:created', (e: any) => {
       const layer = e.layer;
       this.drawnItems.addLayer(layer);
-      console.log(this.getPoints());
-      console.log(this.getDistance());
     });
   }
 
