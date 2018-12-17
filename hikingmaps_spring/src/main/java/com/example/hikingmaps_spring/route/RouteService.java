@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.hikingmaps_spring.route.exceptions.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,8 +23,18 @@ public class RouteService {
         this.userService = userService;
     }
 
-    public List<Route> getAll() {
+    public List<Route> getAll_() {
         return Lists.newArrayList(repository.findAll());
+    }
+
+    public List<Route> getAll() {
+        List<Route> routeList = new ArrayList<Route>();
+        Route route;
+        for (Route rt : repository.findAll()) {
+            route = new Route(rt);
+            routeList.add(route);
+        }
+        return routeList;
     }
 
     public void addRoute(String modifier, Route route) {

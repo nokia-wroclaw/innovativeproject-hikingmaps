@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouteService } from '../route.service';
+import { Route } from '../route';
 import {MenuItem, MessageService} from 'primeng/api';
 import { Router } from '@angular/router';
 import * as Leaflet from 'leaflet';
@@ -21,8 +22,10 @@ export class RouteComponent implements OnInit {
 
   private drawnItems;
   items: MenuItem[];
+  routes: Route[];
 
   ngOnInit() {
+    this.getAllRoutes();
 
     this.items = [
       {
@@ -101,6 +104,26 @@ export class RouteComponent implements OnInit {
     return Math.floor(distance).toString();
   }
 
+  getAllRoutes() {
+    this.routeService.getAllRoutes()
+      .subscribe( data => {
+        this.routes = data;
+      });
+  }
+
+  printInConsole() {
+    if (this.routes.length > 0) {
+      console.log('----- IN ROUTES: ----------------------------------------------------------------------------------------------');
+      for (let i = 0; i < this.routes.length; i++) {
+        console.log(this.routes[i]);
+        // if you want to print just a specified column, use
+        // console.log(this.routes[i].distance);
+      }
+    } else {
+      console.log('Empty!');
+    }
+  }
+
   handleSubmit() {
     this.routeService.addRoute( this.getPoints(), this.getDistance() )
       .subscribe(() => {
@@ -112,6 +135,8 @@ export class RouteComponent implements OnInit {
         this.messageService.add({ severity: 'error', summary: 'Error',
           detail: (error.error.message) ? error.error.message : error.statusText });
       });
+
+    this.printInConsole();
   }
 
 }
