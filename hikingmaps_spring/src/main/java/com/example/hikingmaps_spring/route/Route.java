@@ -2,29 +2,29 @@ package com.example.hikingmaps_spring.route;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
-import java.util.List;
 
-@Entity(name = "Route")
+@Entity
 public class Route {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
     private long id;
-    @ElementCollection
-    @JsonProperty("points")
-    private List<String> points;
-    @OneToOne
-    @JsonProperty("distance")
-    private int distance;
+    private String points;
+    private String distance;
 
-    public Route(long id, List<String> points) {
+    public Route() {
+    }
+
+    public Route(long id, String points, String distance) {
         this.id = id;
         this.points = points;
+        this.distance = distance;
     }
 
     public Route(Route route) {
         this.id = route.id;
         this.points = route.points;
+        this.distance = route.distance;
     }
 
     public long getId() {
@@ -35,15 +35,15 @@ public class Route {
         this.id = id;
     }
 
-    public List<String> getPoints() {
+    public String getPoints() {
         return points;
     }
 
-    public void setPoints(List<String> points) {
+    public void setPoints(String points) {
         this.points = points;
     }
 
-    public float getDistance() { return distance; }
+    public String getDistance() { return distance; }
 
-    public void setDistance(int distance) { this.distance = distance; }
+    public void setDistance(String distance) { this.distance = distance; }
 }

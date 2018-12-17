@@ -5,6 +5,7 @@ import {LoginComponent} from './login/login.component';
 import { BrowseAnnouncementComponent} from './browse-announcement/browse-announcement.component';
 import {AddAnnouncementComponent} from './add-announcement/add-announcement.component';
 import {EditRoutesComponent} from './edit-routes/edit-routes.component';
+import {RouteComponent} from './route/route.component';
 
 
 export const componentDeclarations: any[] = [
@@ -37,6 +38,6 @@ export const routes: Routes = [
   },
   {
     path: 'routes',
-    component: EditRoutesComponent
+    component: RouteComponent
   }
 ];
