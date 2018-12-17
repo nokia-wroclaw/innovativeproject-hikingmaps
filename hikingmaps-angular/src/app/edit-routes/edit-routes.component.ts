@@ -96,7 +96,7 @@ export class EditRoutesComponent implements OnInit {
         distance += latlngs[i].distanceTo(latlngs[i + 1]);
       }
     });
-    return distance;
+    return Math.floor(distance);
   }
 
   sendRoute() {
