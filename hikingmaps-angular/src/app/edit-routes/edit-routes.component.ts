@@ -5,7 +5,6 @@ import 'leaflet-draw';
 import { Router } from '@angular/router';
 import {MenuItem} from 'primeng/api';
 
-
 @Component({
   selector: 'app-edit-routes',
   templateUrl: './edit-routes.component.html',
@@ -13,11 +12,13 @@ import {MenuItem} from 'primeng/api';
 })
 export class EditRoutesComponent implements OnInit {
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   private drawnItems;
   items: MenuItem[];
-  private router: Router;
 
   ngOnInit() {
 
@@ -34,6 +35,7 @@ export class EditRoutesComponent implements OnInit {
         label: 'Announcement',
         icon: 'pi pi-fw pi-pencil',
         items: [
+          {label: 'Browse', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/browse']); }},
           {label: 'Add', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/add']); } },
         ]
       },
@@ -75,10 +77,12 @@ export class EditRoutesComponent implements OnInit {
     map.on('draw:created', (e: any) => {
       const layer = e.layer;
       this.drawnItems.addLayer(layer);
+      this.getPoints();
+      console.log(this.getDistance());
     });
   }
 
-  public getPaths() {
+  public getPoints() {
     const paths = [[]];
     this.drawnItems.eachLayer(function (layer: any) {
       paths.push(layer.getLatLngs());
@@ -86,8 +90,20 @@ export class EditRoutesComponent implements OnInit {
     return paths;
   }
 
-  /*sendRoute() {
-    this.RouteService.addRoute(this.modifiedAnnouncement.id, this.modifiedAnnouncement.title, this.modifiedAnnouncement.start, this.modifiedAnnouncement.destination, this.modifiedAnnouncement.description, mod)
+  public getDistance() {
+    let distance = 0.0;
+    this.drawnItems.eachLayer(function (layer: any) {
+      const latlngs = layer.getLatLngs();
+      for (let i = 0; i < latlngs.length - 1; i++) {
+        distance += latlngs[i].distanceTo(latlngs[i + 1]);
+      }
+    });
+    return distance;
+  }
+
+  sendRoute() {
+    /*
+    this.RouteService.addRoute(getPoints(), getDistance())
       .subscribe(() => {
         this.messageService.add({ severity: 'success', summary: 'Succes', detail: 'Route added succesfully' });
       }, (error) => {
@@ -95,7 +111,7 @@ export class EditRoutesComponent implements OnInit {
         this.messageService.add({ severity: 'error', summary: 'Error',
           detail: (error.error.message) ? error.error.message : error.statusText });
       });
-
-  }*/
+*/
+  }
 }
 
