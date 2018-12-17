@@ -77,17 +77,15 @@ export class EditRoutesComponent implements OnInit {
     map.on('draw:created', (e: any) => {
       const layer = e.layer;
       this.drawnItems.addLayer(layer);
-      this.getPoints();
-      console.log(this.getDistance());
     });
   }
 
   public getPoints() {
-    const paths = [[]];
+    const paths = [];
     this.drawnItems.eachLayer(function (layer: any) {
       paths.push(layer.getLatLngs());
     });
-    return paths;
+    return paths.toString();
   }
 
   public getDistance() {
@@ -98,7 +96,7 @@ export class EditRoutesComponent implements OnInit {
         distance += latlngs[i].distanceTo(latlngs[i + 1]);
       }
     });
-    return distance;
+    return Math.floor(distance);
   }
 
   sendRoute() {
