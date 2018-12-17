@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.example.hikingmaps_spring.route.exceptions.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RouteService {
@@ -34,8 +35,23 @@ public class RouteService {
         }
     }
 
+    public void editRoute(String modifier, Route routeEdit) {
+        Optional<User> optUser = userService.getByLogin(modifier);
+        User user = optUser.orElseThrow(UserDoesntExistException::new);
+        if(user.isAdmin()) {
+            if(repository.existsById(routeEdit.getId())) {
+                repository.save(routeEdit);
+            } else {
+                throw new RouteDoesntExistException();
+            }
+        } else {
+            throw new AdminPermissionsRequiredException();
+        }
+    }
+
     public void deleteRoute(String modifier, long routeId) {
-        User user = userService.getByLogin(modifier).orElseThrow(UserDoesntExistException::new);
+        Optional<User> optUser = userService.getByLogin(modifier);
+        User user = optUser.orElseThrow(UserDoesntExistException::new);
         if(user.isAdmin()) {
             if(repository.existsById(routeId)) {
                 repository.deleteById(routeId);

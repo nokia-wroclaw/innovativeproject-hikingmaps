@@ -19,6 +19,11 @@ public class Route {
         this.points = points;
     }
 
+    public Route(Route route) {
+        this.id = route.id;
+        this.points = route.points;
+    }
+
     public long getId() {
         return id;
     }

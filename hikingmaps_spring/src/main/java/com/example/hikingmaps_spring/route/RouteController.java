@@ -29,6 +29,12 @@ public class RouteController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PatchMapping("/edit")
+    public ResponseEntity<Void> editRoute(Authentication authentication, @RequestBody Route route) {
+        service.editRoute(authentication.getName(), route);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @DeleteMapping("/delete")
     public ResponseEntity<Void> deleteRoute(Authentication authentication, @RequestParam("routeId") long routeId) {
         service.deleteRoute(authentication.getName(), routeId);

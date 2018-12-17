@@ -25,7 +25,13 @@ export class RouteService {
       { points }, { headers: { 'authorization': key } });
   }
 
-  deleteRoute(id: String) {
+  editRoute(id: string, points: string) {
+    const key = this.auth.getKey();
+    return this.http.patch(`${environment.apiUrl}/admin/route/edit`,
+      { id, points }, { headers: { 'authorization': key } });
+  }
+
+  deleteRoute(id: string) {
     const key = this.auth.getKey();
     return this.http.delete(`${environment.apiUrl}/admin/route/delete?routeId=${id}`, { headers: { 'authorization': key } });
   }
