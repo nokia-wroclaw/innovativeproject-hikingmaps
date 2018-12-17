@@ -13,6 +13,9 @@ public class Route {
     @ElementCollection
     @JsonProperty("points")
     private List<String> points;
+    @OneToOne
+    @JsonProperty("distance")
+    private int distance;
 
     public Route(long id, List<String> points) {
         this.id = id;
@@ -39,4 +42,8 @@ public class Route {
     public void setPoints(List<String> points) {
         this.points = points;
     }
+
+    public float getDistance() { return distance; }
+
+    public void setDistance(int distance) { this.distance = distance; }
 }

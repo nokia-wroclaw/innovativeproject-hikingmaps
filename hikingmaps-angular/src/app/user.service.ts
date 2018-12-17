@@ -41,4 +41,7 @@ export class UserService {
       });
     return newObservable;
   }
+  public logoutUser() {
+    this.auth.dropKey();
+  }
 }

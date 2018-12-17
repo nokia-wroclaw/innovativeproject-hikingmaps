@@ -19,16 +19,16 @@ export class RouteService {
     return this.http.get<Route[]>(`${environment.apiUrl}/admin/route/all`, { headers: { 'authorization': key } });
   }
 
-  public addRoute(points: string) {
+  public addRoute(points: string, distance: string) {
     const key = this.auth.getKey();
     return this.http.post(`${environment.apiUrl}/admin/route/add`,
-      { points }, { headers: { 'authorization': key } });
+      { points, distance }, { headers: { 'authorization': key } });
   }
 
-  editRoute(id: string, points: string) {
+  editRoute(id: string, points: string, distance: string) {
     const key = this.auth.getKey();
     return this.http.patch(`${environment.apiUrl}/admin/route/edit`,
-      { id, points }, { headers: { 'authorization': key } });
+      { id, points, distance }, { headers: { 'authorization': key } });
   }
 
   deleteRoute(id: string) {
