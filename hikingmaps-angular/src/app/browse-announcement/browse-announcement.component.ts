@@ -79,14 +79,14 @@ export class BrowseAnnouncementComponent implements OnInit {
         label: 'User',
         icon: 'pi pi-fw pi-user',
         items: [
-          {label: 'Login', icon: 'pi pi-fw pi-user', command: (onclick) => {this.router.navigate(['/login']); } },
-          {label: 'Register', icon: 'pi pi-fw pi-user-plus', command: (onclick) => {this.router.navigate(['/register']); } }
+          {label: 'Logout', icon: 'pi pi-fw pi-user', command: (onclick) => {this.router.navigate(['/login']); } },
         ]
       },
       {
         label: 'Announcement',
         icon: 'pi pi-fw pi-pencil',
         items: [
+          {label: 'Browse', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/browse']); }},
           {label: 'Add', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/add']); } },
         ]
       },
@@ -94,7 +94,7 @@ export class BrowseAnnouncementComponent implements OnInit {
         label: 'Admin',
         icon: 'pi pi-fw pi-key',
         items: [
-          {label: 'Add route', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/routes']); } },
+          {label: 'Add route', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/routes']); }}
         ]
       }
     ];

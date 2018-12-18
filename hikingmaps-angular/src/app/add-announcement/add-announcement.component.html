@@ -1,14 +1,16 @@
+<p-menubar [model]="items"></p-menubar>
 <div class="content">
   <div [ngClass]="'main'">
-
     <h1>Add new announcement</h1>
-    <form [ngClass]="'reg_form'" (submit)="handleSubmit()">
+    <form [ngClass]="'reg_form'" (submit)="handleSubmit()" autocomplete="off">
       <label for="title">Title</label>
       <input autofocus autocomplete="off" type="text" name="title" id="title" required [(ngModel)]="title">
       <label for="start">Start</label>
       <input autocomplete="off" type="text" name="start" id="start" required [(ngModel)]="start">
       <label for="destination">Destination</label>
       <input autocomplete="off" type="text" name="destination" id="destination" required [(ngModel)]="destination">
+      <label for="route">Route</label>
+      <input autocomplete="off" type="text" name="route" id="route" (focus)="routeFocus()" required [(ngModel)]="route">
       <label for="date">Date</label>
       <p-calendar [(ngModel)]="date" [ngModelOptions]="{standalone: true}" name="date" id="date"  [showTime]="true"></p-calendar>
       <label for="description">Description</label>
@@ -17,3 +19,7 @@
     </form>
   </div>
 </div>
+
+<p-dialog header="Choose route" [(visible)]="displayMap" [responsive]="true" showEffect="fade" [modal]="true" width="625" (onShow)="displayRoutes()" (onHide)="clearMap()" >
+  <div id="mapid"></div>
+</p-dialog>

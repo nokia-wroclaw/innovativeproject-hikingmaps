@@ -32,8 +32,7 @@ export class RouteComponent implements OnInit {
         label: 'User',
         icon: 'pi pi-fw pi-user',
         items: [
-          {label: 'Login', icon: 'pi pi-fw pi-user', command: (onclick) => {this.router.navigate(['/login']); } },
-          {label: 'Register', icon: 'pi pi-fw pi-user-plus', command: (onclick) => {this.router.navigate(['/register']); } }
+          {label: 'Logout', icon: 'pi pi-fw pi-user', command: (onclick) => {this.router.navigate(['/login']); } },
         ]
       },
       {

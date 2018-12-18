@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AnnouncementService } from '../announcement.service';
-import { MessageService } from 'primeng/api';
+import {MenuItem, MessageService} from 'primeng/api';
 import { Router } from '@angular/router';
+import * as Leaflet from 'leaflet';
+import {RouteService} from '../route.service';
+import {Route} from '../route';
 
 @Component({
   selector: 'app-add',
@@ -15,15 +18,50 @@ export class AddAnnouncementComponent implements OnInit {
   public date = '';
   public start = '';
   public destination = '';
+  public route = '';
+  displayMap: boolean;
+  private map;
+  routes: Route[];
+  private polylines;
+  private markers;
+  items: MenuItem[];
+
 
 
   constructor(
     private announcementService: AnnouncementService,
     private messageService: MessageService,
+    private routeService: RouteService,
     private router: Router
   ) { }
 
   ngOnInit() {
+    this.getAllRoutes();
+
+    this.items = [
+      {
+        label: 'User',
+        icon: 'pi pi-fw pi-user',
+        items: [
+          {label: 'Logout', icon: 'pi pi-fw pi-user', command: (onclick) => {this.router.navigate(['/login']); } },
+        ]
+      },
+      {
+        label: 'Announcement',
+        icon: 'pi pi-fw pi-pencil',
+        items: [
+          {label: 'Browse', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/browse']); }},
+          {label: 'Add', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/add']); } },
+        ]
+      },
+      {
+        label: 'Admin',
+        icon: 'pi pi-fw pi-key',
+        items: [
+          {label: 'Add route', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/routes']); }}
+        ]
+      }
+    ];
   }
 
   handleSubmit() {
@@ -40,4 +78,107 @@ export class AddAnnouncementComponent implements OnInit {
       });
   }
 
+  displayRoutes() {
+    this.initMap();
+    this.drawRoutes();
+  }
+
+  clearMap() {
+    for (let i = 0; i < this.polylines.length; i++) {
+      this.map.removeLayer(this.polylines[i]);
+    }
+    for (let i = 0; i < this.markers.length; i++) {
+      this.map.removeLayer(this.markers[i]);
+    }
+    this.polylines = [];
+    this.markers = [];
+  }
+
+  initMap() {
+    if (this.map == null) {
+      this.polylines = [];
+      this.markers = [];
+      this.map = Leaflet.map('mapid').setView([49.6563, 18.8902], 14);
+      Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
+    }
+  }
+
+  drawRoutes() {
+    for (let i = 0; i < this.routes.length; i++) {
+      const pointsString = this.routes[i].points.split(/[^0-9.]+/);
+      const pointsList = [];
+      for (let j = 1; j < pointsString.length - 2; j++) {
+        pointsList.push(new Leaflet.LatLng(parseFloat(pointsString[j]), parseFloat(pointsString[j + 1])));
+        j++;
+      }
+      this.addPoly(pointsList, i);
+      this.addMarker(pointsList[0]);
+      this.addMarker(pointsList[pointsList.length - 1]);
+    }
+  }
+
+  addMarker(point) {
+    const marker = new Leaflet.Marker(point, {opacity: 0.5}).addTo(this.map);
+    this.markers.push(marker);
+  }
+
+  addPoly(pointsList, i) {
+    const poly = new Leaflet.Polyline(pointsList, {
+      color: 'blue',
+      weight: 7,
+      opacity: 0.5,
+      smoothFactor: 1
+    });
+    poly.on('click', () => {
+      this.route = this.polylines.indexOf(poly).toString();
+      this.displayMap = false;
+    });
+    poly.bindTooltip('Distance: ' + this.routes[i].distance + ' meters');
+    poly.on('mouseover', () => {
+      const index = this.polylines.indexOf(poly);
+      for (let k = 0; k < this.polylines.length; k++) {
+        if (k === index) {
+          this.polylines[k].setStyle({
+            opacity: 0.75
+          });
+        } else {
+          this.polylines[k].setStyle({
+            opacity: 0.1
+          });
+        }
+      }
+      const points = poly.getLatLngs();
+      for (let l = 0; l < this.markers.length; l++) {
+        this.markers[l].setOpacity(0.1);
+        for (let m = 0; m < points.length; m++) {
+          if (this.markers[l].getLatLng() === points[m]) {
+            this.markers[l].setOpacity(0.75);
+          }
+        }
+      }
+    });
+    poly.on('mouseout', () => {
+      for (let k = 0; k < this.polylines.length; k++) {
+        this.polylines[k].setStyle({
+          opacity: 0.5
+        });
+      }
+      for (let k = 0; k < this.markers.length; k++) {
+        this.markers[k].setOpacity(0.5);
+      }
+    });
+    this.polylines.push(poly);
+    poly.addTo(this.map);
+  }
+
+  routeFocus() {
+    this.displayMap = true;
+  }
+
+  getAllRoutes() {
+    this.routeService.getAllRoutes()
+      .subscribe( data => {
+        this.routes = data;
+      });
+  }
 }
