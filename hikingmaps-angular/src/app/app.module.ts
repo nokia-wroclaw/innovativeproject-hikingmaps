@@ -23,6 +23,8 @@ import { PanelModule} from 'primeng/primeng';
 import { DialogModule} from 'primeng/primeng';
 import { ButtonModule} from 'primeng/primeng';
 import { AddAnnouncementComponent } from './add-announcement/add-announcement.component';
+import {SelectButtonModule} from 'primeng/selectbutton';
+import {ListboxModule} from 'primeng/listbox';
 
 
 
@@ -53,7 +55,9 @@ import { AddAnnouncementComponent } from './add-announcement/add-announcement.co
     PanelModule,
     DialogModule,
     BrowserAnimationsModule,
-    ButtonModule
+    ButtonModule,
+    SelectButtonModule,
+    ListboxModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

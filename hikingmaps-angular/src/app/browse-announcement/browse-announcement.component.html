@@ -4,15 +4,18 @@
     <p-header>
       <div class="ui-helper-clearfix">
         <div class="ui-g">
-          <div class="ui-g-12 ui-md-4">
+          <div class="ui-g-12 ui-md-3">
             <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sortuj" (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}"></p-dropdown>
           </div>
-          <div class="ui-g-6 ui-md-4 filter-container">
+          <div class="ui-g-6 ui-md-3 filter-container">
             <div style="position:relative">
               <input type="search" pInputText placeholder="Szukaj" (keyup)="dv.filter($event.target.value)">
             </div>
           </div>
-          <div class="ui-g-6 ui-md-4" style="text-align:right">
+          <div class="ui-g-12 ui-md-3">
+            <p-selectButton [options]="displayTypes" [(ngModel)]="selectedType" (onChange)="$event.value.command()"></p-selectButton>
+          </div>
+          <div class="ui-g-6 ui-md-3" style="text-align:right">
             <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
           </div>
         </div>
@@ -34,27 +37,35 @@
             <div class="ui-g-2 ui-sm-6">Destination: </div>
             <div class="ui-g-10 ui-sm-6"><b>{{announcment.destination}}</b></div>
 
+
           </div>
         </div>
         <div class="ui-g-12 ui-md-1 search-icon">
-          <button pButton type="button" icon="pi pi-search" (click)="selectAnnouncement($event, announcment)"></button>
-          <button pButton type="button" icon="pi pi-star" style=" margin-left: 15px" (click)="selectAsInterested(announcment)"></button>
+          <button pButton type="button" icon="pi pi-search" (click)="selectAnnouncementForDetails($event, announcment)"></button>
+          <button *ngIf="showInterested" pButton type="button" icon="pi pi-star" style=" margin-left: 15px" (click)="selectAsInterested(announcment)"></button>
+          <button *ngIf="showOptions" pButton type="button" icon="pi pi-cog" style=" margin-left: 15px" (click)="selectAnnouncementForOptions($event, announcment)"></button>
+          <button *ngIf="showConfirm" pButton type="button" icon="pi pi-plus" style=" margin-left: 15px" (click)="selectAnnouncementForInterested($event, announcment)"></button>
+          <p-button *ngIf="announcment.status" label="Accepted" styleClass="ui-button-success" style=" margin-left: 15px"></p-button>
+
         </div>
       </div>
     </ng-template>
     <ng-template let-announcment pTemplate="gridItem">
       <div style="padding:.5em" class="ui-g-12 ui-md-3">
         <p-panel [header]="announcment.name" [style]="{'text-align':'center'}">
-          <div class="car-detail">{{announcment.start}} - {{announcment.destination}}</div>
+          <div class="announcement-detail">{{announcment.start}} - {{announcment.destination}}</div>
           <hr class="ui-widget-content" style="border-top:0">
-          <button pButton type="button" icon="pi pi-search" (click)="selectAnnouncement($event, announcment)" style="margin-top:0"></button>
-          <button pButton type="button" icon="pi pi-star" style=" margin-left: 15px" (click)="selectAsInterested(announcment)"></button>
+          <button pButton type="button" icon="pi pi-search" (click)="selectAnnouncementForDetails($event, announcment)" style="margin-top:0"></button>
+          <button pButton *ngIf="showInterested" type="button" icon="pi pi-star" style=" margin-left: 15px" (click)="selectAsInterested(announcment)"></button>
+          <button pButton *ngIf="showOptions" type="button" icon="pi pi-cog" style=" margin-left: 15px" (click)="selectAnnouncementForOptions($event, announcment)"></button>
+          <button pButton *ngIf="showConfirm" type="button" icon="pi pi-plus" style=" margin-left: 15px" (click)="selectAnnouncementForInterested($event, announcment)"></button>
+          <p-button *ngIf="announcment.status" label="Accepted" styleClass="ui-button-success" style=" margin-left: 15px"></p-button>
         </p-panel>
       </div>
     </ng-template>
   </p-dataView>
 
-  <p-dialog header="Announcment Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="325" (onAfterHide)="onDialogHide()">
+  <p-dialog header="Announcement Details" [(visible)]="displayDialogDetails" [responsive]="true" showEffect="fade" [modal]="true" width="625" (onShow)="displayMaps()" (onAfterHide)="onDialogHide()">
     <div class="ui-g" *ngIf="selectedAnnouncement">
 
       <div class="ui-g-4">Date: </div>
@@ -68,5 +79,42 @@
 
       <div class="ui-g-4">Description: </div>
       <div class="ui-g-8">{{selectedAnnouncement.description}}</div>
+
     </div>
+    <div id="mapid"></div>
   </p-dialog>
+
+   <p-dialog header="Announcement Options" [(visible)]="displayDialogOptions" [responsive]="true" showEffect="fade" [modal]="true" width="325" (onAfterHide)="onDialogHide()">
+     <div class="ui-g" *ngIf="selectedAnnouncement" >
+       <div class="ui-g-8">
+        <input  type="text" size="30" [(ngModel)]="selectedAnnouncement.title" pInputText placeholder="{{selectedAnnouncement.title}} ">
+       </div>
+       <div class="ui-g-8">
+        <input  type="text" size="30" [(ngModel)]="selectedAnnouncement.start" pInputText placeholder="{{selectedAnnouncement.start}}">
+       </div>
+       <div class="ui-g-8">
+         <input  type="text" size="30" [(ngModel)]="selectedAnnouncement.destination" pInputText placeholder="{{selectedAnnouncement.destination}}">
+       </div>
+       <div class="ui-g-8">
+        <input  type="text" size="30" [(ngModel)]="selectedAnnouncement.date" pInputText placeholder="{{selectedAnnouncement.date}}">
+       </div>
+       <div class="ui-g-8">
+         <input  type="text" size="30" [(ngModel)]="selectedAnnouncement.description" pInputText placeholder="{{selectedAnnouncement.description}}">
+       </div>
+       <button pButton type="button" label="Confirm changes"  (click)="handleChanges()"></button>
+       <button pButton type="button" label="Delete" (click)="handleDelete()"></button>
+     </div>
+   </p-dialog>
+
+   <p-dialog header="Announcement Interest" [(visible)]="displayDialogInterest" [responsive]="true" showEffect="fade" [modal]="true" width="250" (onAfterHide)="onDialogHide()">
+     <div class="ui-g" *ngIf="displayNotAcceptedUsers">
+
+       <p-listbox [options]="displayNotAcceptedUsers" [(ngModel)]="usersSelectedToAccept" multiple="multiple" checkbox="checkbox" filter="filter">
+         <p-header>
+           <i class="fa fa-plus"></i>
+           Interested Users
+         </p-header>
+       </p-listbox>
+       <button pButton type="button" label="Add" (click)="handleConfirmInterest()"></button>
+     </div>
+   </p-dialog>
