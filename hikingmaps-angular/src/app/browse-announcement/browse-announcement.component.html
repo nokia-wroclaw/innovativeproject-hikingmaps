@@ -45,7 +45,8 @@
           <button *ngIf="showInterested" pButton type="button" icon="pi pi-star" style=" margin-left: 15px" (click)="selectAsInterested(announcment)"></button>
           <button *ngIf="showOptions" pButton type="button" icon="pi pi-cog" style=" margin-left: 15px" (click)="selectAnnouncementForOptions($event, announcment)"></button>
           <button *ngIf="showConfirm" pButton type="button" icon="pi pi-plus" style=" margin-left: 15px" (click)="selectAnnouncementForInterested($event, announcment)"></button>
-          <button *ngIf="announcment.status"  pButton label="Accepted" styleClass="ui-button-success" style=" margin-left: 15px"></button>
+          <p-button *ngIf="announcment.status" label="Accepted" styleClass="ui-button-success" style=" margin-left: 15px"></p-button>
+
         </div>
       </div>
     </ng-template>
@@ -58,6 +59,7 @@
           <button pButton *ngIf="showInterested" type="button" icon="pi pi-star" style=" margin-left: 15px" (click)="selectAsInterested(announcment)"></button>
           <button pButton *ngIf="showOptions" type="button" icon="pi pi-cog" style=" margin-left: 15px" (click)="selectAnnouncementForOptions($event, announcment)"></button>
           <button pButton *ngIf="showConfirm" type="button" icon="pi pi-plus" style=" margin-left: 15px" (click)="selectAnnouncementForInterested($event, announcment)"></button>
+          <p-button *ngIf="announcment.status" label="Accepted" styleClass="ui-button-success" style=" margin-left: 15px"></p-button>
         </p-panel>
       </div>
     </ng-template>
@@ -78,46 +80,41 @@
       <div class="ui-g-4">Description: </div>
       <div class="ui-g-8">{{selectedAnnouncement.description}}</div>
 
-
-
     </div>
     <div id="mapid"></div>
   </p-dialog>
 
+   <p-dialog header="Announcement Options" [(visible)]="displayDialogOptions" [responsive]="true" showEffect="fade" [modal]="true" width="325" (onAfterHide)="onDialogHide()">
+     <div class="ui-g" *ngIf="selectedAnnouncement" >
+       <div class="ui-g-8">
+        <input  type="text" size="30" [(ngModel)]="selectedAnnouncement.title" pInputText placeholder="{{selectedAnnouncement.title}} ">
+       </div>
+       <div class="ui-g-8">
+        <input  type="text" size="30" [(ngModel)]="selectedAnnouncement.start" pInputText placeholder="{{selectedAnnouncement.start}}">
+       </div>
+       <div class="ui-g-8">
+         <input  type="text" size="30" [(ngModel)]="selectedAnnouncement.destination" pInputText placeholder="{{selectedAnnouncement.destination}}">
+       </div>
+       <div class="ui-g-8">
+        <input  type="text" size="30" [(ngModel)]="selectedAnnouncement.date" pInputText placeholder="{{selectedAnnouncement.date}}">
+       </div>
+       <div class="ui-g-8">
+         <input  type="text" size="30" [(ngModel)]="selectedAnnouncement.description" pInputText placeholder="{{selectedAnnouncement.description}}">
+       </div>
+       <button pButton type="button" label="Confirm changes"  (click)="handleChanges()"></button>
+       <button pButton type="button" label="Delete" (click)="handleDelete()"></button>
+     </div>
+   </p-dialog>
 
- <p-dialog header="Announcement Options" [(visible)]="displayDialogOptions" [responsive]="true" showEffect="fade" (onShow)="selectAnnouncementForOptions2()" [modal]="true" width="325" (onAfterHide)="onDialogHide()">
-   <div class="ui-g" *ngIf="modifiedAnnouncement" >
-     <div class="ui-g-8">
-      <input  type="text" size="30" [(ngModel)]="modifiedAnnouncement.title" pInputText placeholder="{{selectedAnnouncement.title}} ">
-     </div>
-     <div class="ui-g-8">
-      <input  type="text" size="30" [(ngModel)]="modifiedAnnouncement.start" pInputText placeholder="{{selectedAnnouncement.start}}">
-     </div>
-     <div class="ui-g-8">
-       <input  type="text" size="30" [(ngModel)]="modifiedAnnouncement.destination" pInputText placeholder="{{selectedAnnouncement.destination}}">
-     </div>
-     <div class="ui-g-8">
-      <input  type="text" size="30" [(ngModel)]="modifiedAnnouncement.date" pInputText placeholder="{{selectedAnnouncement.date}}">
-     </div>
-     <div class="ui-g-8">
-       <input  type="text" size="30" [(ngModel)]="modifiedAnnouncement.description" pInputText placeholder="{{selectedAnnouncement.description}}">
-     </div>
-     <button pButton type="button" label="Confirm changes"  (click)="handleChanges()"></button>
-     <button pButton type="button" label="Cancel"></button>
-     <button pButton type="button" label="Delete" (click)="handleDelete()"></button>
-   </div>
- </p-dialog>
+   <p-dialog header="Announcement Interest" [(visible)]="displayDialogInterest" [responsive]="true" showEffect="fade" [modal]="true" width="250" (onAfterHide)="onDialogHide()">
+     <div class="ui-g" *ngIf="displayNotAcceptedUsers">
 
- <p-dialog header="Announcement Interest" [(visible)]="displayDialogInterest" [responsive]="true" showEffect="fade" [modal]="true" width="200" (onAfterHide)="onDialogHide()">
-   <div class="ui-g" *ngIf="selectedAcceptationStates">
-
-     <p-listbox [options]="selectedAcceptationStates" [(ngModel)]="selectedToConfirmAcceptationStates" multiple="multiple" checkbox="checkbox" filter="filter" optionLabel="first">
-       <p-header>
-         <i class="fa fa-plus"></i>
-         Interested Users
-       </p-header>
-     </p-listbox>
-
-     <button pButton type="button" label="Add" (click)="handleConfirmInterest()"></button>
-   </div>
- </p-dialog>
+       <p-listbox [options]="displayNotAcceptedUsers" [(ngModel)]="usersSelectedToAccept" multiple="multiple" checkbox="checkbox" filter="filter">
+         <p-header>
+           <i class="fa fa-plus"></i>
+           Interested Users
+         </p-header>
+       </p-listbox>
+       <button pButton type="button" label="Add" (click)="handleConfirmInterest()"></button>
+     </div>
+   </p-dialog>

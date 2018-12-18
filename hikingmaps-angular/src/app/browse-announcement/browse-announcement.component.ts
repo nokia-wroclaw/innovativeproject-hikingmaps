@@ -14,6 +14,12 @@ import * as Leaflet from 'leaflet';
 })
 export class BrowseAnnouncementComponent implements OnInit {
 
+  constructor(
+    private announcementService: AnnouncementService,
+    private messageService: MessageService,
+    private router: Router
+  ) { }
+
   announcements: Announcement[];
 
   items: MenuItem[];
@@ -34,38 +40,29 @@ export class BrowseAnnouncementComponent implements OnInit {
 
   sortOrder: number;
 
-  displayTypes: SelectItem[];
+  displayTypes: SelectItem[]; // All/Interested/My
 
-  selectedType: string;
+  selectedType: string; // All/Interested/My
 
-  selectedToConfirmAcceptationStates: {first: string, second: boolean}[];
+  usersSelectedToAccept: SelectItem[]; // selected usernames to accept
 
-  selectedAcceptationStates: {first: string, second: boolean}[] = [{first: 'asdasd', second: true}];
+  displayNotAcceptedUsers: SelectItem[]; // display only those usernames, which are waiting for acceptance
 
-  selectedAcceptationState: {id: string, states: [{first: string, second: boolean}]};
+  showInterested: boolean; // show interested button
 
-  acceptationStates: {id: string, states: [{first: string, second: boolean}]}[] = [];
+  showOptions: boolean; // show optins button
 
-  modifiedAnnouncement: Announcement;
+  showConfirm: boolean; // show confirm button
 
-  showInterested: boolean;
+  showStatus: boolean; // show acceptance status button (only show when accepted)
 
-  showOptions: boolean;
-
-  showConfirm: boolean;
-
-  showStatus: boolean;
-
-  constructor(
-    private announcementService: AnnouncementService,
-    private messageService: MessageService,
-    private router: Router
-  ) { }
-
+  displayMaps() {
+    const map = Leaflet.map('mapid').setView([49.6563, 18.8902], 14);
+    Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+  }
 
   ngOnInit() {
     this.getAllAnnouncements();
-
 
     this.displayTypes = [
 
@@ -93,14 +90,15 @@ export class BrowseAnnouncementComponent implements OnInit {
     ];
 
     this.sortOptions = [
-      {label: 'Najnowsze', value: '!date'},
-      {label: 'Najstarsze', value: 'date'}
+      {label: 'Recent', value: '!date'},
+      {label: 'Oldest', value: 'date'}
     ];
   }
   getAllAnnouncements() {
     this.announcements = [];
     this.announcementService.getAllAnnouncements()
-      .subscribe( data => {
+      .subscribe( data => { // data = [{Announcement}]
+        console.log(data);
         this.announcements = data;
       });
     this.convertDate();
@@ -114,10 +112,11 @@ export class BrowseAnnouncementComponent implements OnInit {
 
     this.announcements = [];
     this.announcementService.getMyAnnouncements()
-      .subscribe( data => {
+      .subscribe( data => { // data = [{first: Announcement, second:[{first: username, second: status}]}]
+        console.log(data);
         for (let i = 0; i < data.length; i++) {
             this.announcements.push(data[i].first);
-            this.acceptationStates.push({id: data[i].first.id, states: data[i].second});
+            this.announcements[this.announcements.length - 1].interested = data[i].second;
         }
       });
     this.convertDate();
@@ -130,11 +129,11 @@ export class BrowseAnnouncementComponent implements OnInit {
   getInterestingAnnouncements() {
     this.announcements = [];
     this.announcementService.getInterestingAnnouncements()
-      .subscribe(data => {
+      .subscribe(data => { // data = [{first: Announcement,second: status]
+        console.log(data);
         for (let i = 0; i < data.length; i++) {
           this.announcements.push(data[i].first);
           this.announcements[this.announcements.length - 1].status = data[i].second;
-          console.log(this.announcements[this.announcements.length - 1]);
         }
       });
     this.convertDate();
@@ -160,34 +159,22 @@ export class BrowseAnnouncementComponent implements OnInit {
     this.selectedAnnouncement = announcement;
     this.displayDialogDetails = true;
     event.preventDefault();
-
   }
 
   selectAnnouncementForOptions(event: Event, announcement: Announcement) {
     this.selectedAnnouncement = announcement;
-    this.modifiedAnnouncement = this.selectedAnnouncement;
     this.displayDialogOptions = true;
     event.preventDefault();
   }
-  selectAnnouncementForOptions2() {
-    this.modifiedAnnouncement = this.selectedAnnouncement;
-  }
 
   selectAnnouncementForInterested(event: Event, announcement: Announcement) {
-    console.log(this.acceptationStates.length);
-    for (let i = 0; i < this.acceptationStates.length; i++) {
-      if (announcement.id === this.acceptationStates[i].id) {
-        this.selectedAcceptationState = this.acceptationStates[i];
-        this.selectedAcceptationStates = [];
-        console.log('length' + this.acceptationStates[i].states.length);
-        for (let j = 0; j < this.acceptationStates[i].states.length; j++) {
-          if (!this.acceptationStates[i].states[j].second) {
-            console.log('second' + this.acceptationStates[i].states[j].second);
-            this.selectedAcceptationStates.push(this.acceptationStates[i].states[j]);
-          }
-        }
+    this.displayNotAcceptedUsers = [];
+    for (let i = 0; i < announcement.interested.length; i++) { // get only those, which are not already accepted
+      if (!announcement.interested[i].second) {
+        this.displayNotAcceptedUsers.push({label: announcement.interested[i].first, value: announcement.interested[i].first});
       }
     }
+    this.selectedAnnouncement = announcement;
     this.displayDialogInterest = true;
     event.preventDefault();
   }
@@ -212,8 +199,7 @@ export class BrowseAnnouncementComponent implements OnInit {
     this.announcementService.addInterest(announcemnt.id)
       .subscribe(() => {
       this.messageService.add({ severity: 'success', summary: 'Succes', detail: 'Iterested succesfully' });
-      this.router.navigate(['/browse']);
-      // send message about succes and reroute
+      // send message about succes
     }, (error) => {
       // send message about error
       this.messageService.add({ severity: 'error', summary: 'Error',
@@ -222,8 +208,9 @@ export class BrowseAnnouncementComponent implements OnInit {
   }
 
   handleChanges() {
-    console.log(this.modifiedAnnouncement);
-    this.announcementService.changeMyAnnouncement(this.modifiedAnnouncement.id, this.modifiedAnnouncement.title, this.modifiedAnnouncement.start, this.modifiedAnnouncement.destination, this.modifiedAnnouncement.description, this.modifiedAnnouncement.date)
+    this.announcementService.changeMyAnnouncement(this.selectedAnnouncement.id, this.selectedAnnouncement.title,
+      this.selectedAnnouncement.start, this.selectedAnnouncement.destination, this.selectedAnnouncement.description,
+      this.selectedAnnouncement.date)
       .subscribe(() => {
         this.messageService.add({ severity: 'success', summary: 'Succes', detail: 'Announcement changed succesfully' });
       }, (error) => {
@@ -231,27 +218,30 @@ export class BrowseAnnouncementComponent implements OnInit {
         this.messageService.add({ severity: 'error', summary: 'Error',
           detail: (error.error.message) ? error.error.message : error.statusText });
       });
+    this.displayDialogOptions = false;
   }
 
   handleDelete() {
     this.announcementService.deleteMyAnnouncement( this.selectedAnnouncement.id)
       .subscribe(() => {
         this.messageService.add({ severity: 'success', summary: 'Succes', detail: 'Announcement deleted succesfully' });
-      }, (error) => {
+        this.getMyAnnouncements();
+        }, (error) => {
         // send message about error
         this.messageService.add({ severity: 'error', summary: 'Error',
           detail: (error.error.message) ? error.error.message : error.statusText });
       });
+    this.displayDialogOptions = false;
 
   }
 
   handleConfirmInterest() {
-
-    for (let i = 0; i < this.selectedToConfirmAcceptationStates.length; i++) {
-      this.announcementService.confirmUser(this.selectedToConfirmAcceptationStates[i].first, this.selectedAcceptationState.id)
+    for (let i = 0; i < this.usersSelectedToAccept.length; i++) { // accept all selected users
+      this.announcementService.confirmUser(this.usersSelectedToAccept[i].toString(), this.selectedAnnouncement.id)
         .subscribe(() => {
           this.messageService.add({severity: 'success', summary: 'Succes', detail: 'User accepted succesfully'});
-        }, (error) => {
+          this.getMyAnnouncements();
+          }, (error) => {
           // send message about error
           this.messageService.add({
             severity: 'error', summary: 'Error',
@@ -259,12 +249,7 @@ export class BrowseAnnouncementComponent implements OnInit {
           });
         });
     }
-    this.getMyAnnouncements();
-  }
-
-  displayMaps() {
-    const map = Leaflet.map('mapid').setView([49.6563, 18.8902], 14);
-    Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    this.displayDialogInterest = false;
   }
 }
 

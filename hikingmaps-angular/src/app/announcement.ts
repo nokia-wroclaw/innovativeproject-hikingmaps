@@ -6,4 +6,5 @@ export interface Announcement {
     destination;
     date;
     status;
+    interested;
 }
