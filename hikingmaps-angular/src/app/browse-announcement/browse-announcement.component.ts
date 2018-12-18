@@ -5,6 +5,7 @@ import {MenuItem, MessageService} from 'primeng/api';
 import { Router } from '@angular/router';
 import {SelectItem} from 'primeng/api';
 import * as Leaflet from 'leaflet';
+import * as moment from 'moment';
 
 
 @Component({
@@ -97,11 +98,10 @@ export class BrowseAnnouncementComponent implements OnInit {
   getAllAnnouncements() {
     this.announcements = [];
     this.announcementService.getAllAnnouncements()
-      .subscribe( data => { // data = [{Announcement}]
-        console.log(data);
+      .subscribe( data => {
         this.announcements = data;
+        this.convertDate();
       });
-    this.convertDate();
     this.showInterested = true;
     this.showConfirm = false;
     this.showOptions = false;
@@ -112,14 +112,13 @@ export class BrowseAnnouncementComponent implements OnInit {
 
     this.announcements = [];
     this.announcementService.getMyAnnouncements()
-      .subscribe( data => { // data = [{first: Announcement, second:[{first: username, second: status}]}]
-        console.log(data);
+      .subscribe( data => {
         for (let i = 0; i < data.length; i++) {
             this.announcements.push(data[i].first);
             this.announcements[this.announcements.length - 1].interested = data[i].second;
         }
+        this.convertDate();
       });
-    this.convertDate();
     this.showInterested = false;
     this.showConfirm = true;
     this.showOptions = true;
@@ -129,28 +128,22 @@ export class BrowseAnnouncementComponent implements OnInit {
   getInterestingAnnouncements() {
     this.announcements = [];
     this.announcementService.getInterestingAnnouncements()
-      .subscribe(data => { // data = [{first: Announcement,second: status]
-        console.log(data);
+      .subscribe(data => {
         for (let i = 0; i < data.length; i++) {
           this.announcements.push(data[i].first);
           this.announcements[this.announcements.length - 1].status = data[i].second;
         }
+        this.convertDate();
       });
-    this.convertDate();
     this.showInterested = false;
     this.showConfirm = false;
     this.showOptions = false;
     this.showStatus = true;
   }
   convertDate() {
-    const re = /(\d+)\-(\d+)\-(\d+)T(\d+):(\d+):(\d+)/;
     for (let i = 0; i < this.announcements.length; i++) {
-      if (this.announcements[i].date != null) {
-        const m = this.announcements[i].date.match(re);
-        if (m) {
-          const h = (parseInt(m[4], 10) + 1) % 24; // add 1 cause poland is in such timezone
-          this.announcements[i].date = `${m[1]}/${m[2]}/${m[3]} ${h}:${m[5]}`;
-        }
+      if (this.announcements[i].date) {
+        this.announcements[i].date = moment(this.announcements[i].date, 'YYYY-MM-DDTHH:mm:ssZ').format('DD-MM-YYYY HH:mm');
       }
     }
   }
@@ -208,9 +201,11 @@ export class BrowseAnnouncementComponent implements OnInit {
   }
 
   handleChanges() {
+    const convDate = moment(this.selectedAnnouncement.date, 'DD-MM-YYYY HH:mm').format('YYYY-MM-DDTHH:mm:ssZ');
+    console.log(convDate);
     this.announcementService.changeMyAnnouncement(this.selectedAnnouncement.id, this.selectedAnnouncement.title,
       this.selectedAnnouncement.start, this.selectedAnnouncement.destination, this.selectedAnnouncement.description,
-      this.selectedAnnouncement.date)
+      convDate)
       .subscribe(() => {
         this.messageService.add({ severity: 'success', summary: 'Succes', detail: 'Announcement changed succesfully' });
       }, (error) => {
