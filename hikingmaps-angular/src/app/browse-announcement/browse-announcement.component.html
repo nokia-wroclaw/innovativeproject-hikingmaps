@@ -63,7 +63,7 @@
     </ng-template>
   </p-dataView>
 
-  <p-dialog header="Announcement Details" [(visible)]="displayDialogDetails" [responsive]="true" showEffect="fade" [modal]="true" width="625" (onShow)="displayMaps()" (onAfterHide)="onDialogHide()">
+  <p-dialog header="Announcement Details" [(visible)]="displayDialogDetails" [responsive]="true" showEffect="fade" [modal]="true" width="625" (onShow)="displayMaps()" (onHide)="onDialogHide()">
     <div class="ui-g" *ngIf="selectedAnnouncement">
 
       <div class="ui-g-4" style="font-size:medium">Date: </div>

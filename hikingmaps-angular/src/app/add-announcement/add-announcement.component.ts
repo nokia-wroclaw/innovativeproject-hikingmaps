@@ -66,7 +66,7 @@ export class AddAnnouncementComponent implements OnInit {
 
   handleSubmit() {
 
-    this.announcementService.addAnnouncement( this.title, this.start, this.destination, this.description, this.date)
+    this.announcementService.addAnnouncement( this.title, this.start, this.destination, this.route, this.date, this.description)
       .subscribe(() => {
         this.messageService.add({ severity: 'success', summary: 'Succes', detail: 'Announcement added succesfully' });
         this.router.navigate(['/browse']);
@@ -85,7 +85,7 @@ export class AddAnnouncementComponent implements OnInit {
 
   clearMap() {
     for (let i = 0; i < this.polylines.length; i++) {
-      this.map.removeLayer(this.polylines[i]);
+      this.map.removeLayer(this.polylines[i].poly);
     }
     for (let i = 0; i < this.markers.length; i++) {
       this.map.removeLayer(this.markers[i]);
@@ -105,13 +105,14 @@ export class AddAnnouncementComponent implements OnInit {
 
   drawRoutes() {
     for (let i = 0; i < this.routes.length; i++) {
-      const pointsString = this.routes[i].points.split(/[^0-9.]+/);
+      const pointsString = this.routes[i].points.toString().split(',');
+      console.log(pointsString);
       const pointsList = [];
-      for (let j = 1; j < pointsString.length - 2; j++) {
+      for (let j = 0; j < pointsString.length - 1; j++) {
         pointsList.push(new Leaflet.LatLng(parseFloat(pointsString[j]), parseFloat(pointsString[j + 1])));
         j++;
       }
-      this.addPoly(pointsList, i);
+      this.addPoly(pointsList, this.routes[i].id, this.routes[i].distance);
       this.addMarker(pointsList[0]);
       this.addMarker(pointsList[pointsList.length - 1]);
     }
@@ -122,7 +123,7 @@ export class AddAnnouncementComponent implements OnInit {
     this.markers.push(marker);
   }
 
-  addPoly(pointsList, i) {
+  addPoly(pointsList, id, distance) {
     const poly = new Leaflet.Polyline(pointsList, {
       color: 'blue',
       weight: 7,
@@ -130,23 +131,25 @@ export class AddAnnouncementComponent implements OnInit {
       smoothFactor: 1
     });
     poly.on('click', () => {
-      this.route = this.polylines.indexOf(poly).toString();
+      for (let i = 0; i < this.polylines.length; i++) {
+        if (this.polylines[i].poly === poly) {
+          this.route = this.polylines[i].id;
+          break;
+        }
+      }
       this.displayMap = false;
     });
-    poly.bindTooltip('Distance: ' + this.routes[i].distance + ' meters');
+    poly.bindTooltip('Distance: ' + distance + ' meters');
     poly.on('mouseover', () => {
       const index = this.polylines.indexOf(poly);
       for (let k = 0; k < this.polylines.length; k++) {
-        if (k === index) {
-          this.polylines[k].setStyle({
-            opacity: 0.75
-          });
-        } else {
-          this.polylines[k].setStyle({
+          this.polylines[k].poly.setStyle({
             opacity: 0.1
           });
-        }
       }
+      poly.setStyle({
+        opacity: 0.75
+      });
       const points = poly.getLatLngs();
       for (let l = 0; l < this.markers.length; l++) {
         this.markers[l].setOpacity(0.1);
@@ -159,7 +162,7 @@ export class AddAnnouncementComponent implements OnInit {
     });
     poly.on('mouseout', () => {
       for (let k = 0; k < this.polylines.length; k++) {
-        this.polylines[k].setStyle({
+        this.polylines[k].poly.setStyle({
           opacity: 0.5
         });
       }
@@ -167,7 +170,7 @@ export class AddAnnouncementComponent implements OnInit {
         this.markers[k].setOpacity(0.5);
       }
     });
-    this.polylines.push(poly);
+    this.polylines.push({id: id, poly: poly});
     poly.addTo(this.map);
   }
 

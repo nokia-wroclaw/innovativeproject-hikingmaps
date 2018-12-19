@@ -87,17 +87,23 @@ export class RouteComponent implements OnInit {
   public getPoints() {
     const paths = [];
     this.drawnItems.eachLayer(function (layer: any) {
-      paths.push(layer.getLatLngs());
+      const latLngs = layer.getLatLngs();
+      for (let i = 0; i < latLngs.length; i++) {
+        paths.push(latLngs[i].lat);
+        paths.push(latLngs[i].lng);
+      }
     });
+    console.log(paths.toString());
     return paths.toString();
   }
 
   public getDistance() {
     let distance = 0.0;
     this.drawnItems.eachLayer(function (layer: any) {
-      const latlngs = layer.getLatLngs();
-      for (let i = 0; i < latlngs.length - 1; i++) {
-        distance += latlngs[i].distanceTo(latlngs[i + 1]);
+      const latLngs = layer.getLatLngs();
+      console.log(latLngs);
+      for (let i = 0; i < latLngs.length - 1; i++) {
+        distance += latLngs[i].distanceTo(latLngs[i + 1]);
       }
     });
     return Math.floor(distance).toString();

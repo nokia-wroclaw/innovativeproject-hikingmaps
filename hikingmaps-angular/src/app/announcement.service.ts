@@ -26,10 +26,10 @@ export class AnnouncementService {
     const key = this.auth.getKey();
     return this.http.get<Array<any>>(`${environment.apiUrl}/sec/ann/interest/my`, { headers: { 'authorization': key } });
   }
-  public addAnnouncement(title: string, start: string, destination: string, description: string, date: string) {
+  public addAnnouncement(title: string, start: string, destination: string, route: string, date: string, description: string) {
     const key = this.auth.getKey();
     return this.http.post(`${environment.apiUrl}/sec/ann/add`,
-      { title, date, description, start, destination }, { headers: { 'authorization': key } });
+      { title, start, destination, route, date, description}, { headers: { 'authorization': key } });
   }
   addInterest(id: String) {
     const key = this.auth.getKey();

@@ -5,6 +5,7 @@ import {MenuItem, MessageService} from 'primeng/api';
 import { Router } from '@angular/router';
 import {SelectItem} from 'primeng/api';
 import * as Leaflet from 'leaflet';
+import {RouteService} from '../route.service';
 
 
 @Component({
@@ -56,9 +57,14 @@ export class BrowseAnnouncementComponent implements OnInit {
 
   showStatus: boolean;
 
+  private map;
+  private polyline;
+  private markers;
+
   constructor(
     private announcementService: AnnouncementService,
     private messageService: MessageService,
+    private routeService: RouteService,
     private router: Router
   ) { }
 
@@ -213,6 +219,7 @@ export class BrowseAnnouncementComponent implements OnInit {
 
   onDialogHide() {
     this.selectedAnnouncement = null;
+    this.clearMap();
   }
 
   selectAsInterested(announcemnt: Announcement) {
@@ -280,8 +287,57 @@ export class BrowseAnnouncementComponent implements OnInit {
   }
 
   displayMaps() {
-    const map = Leaflet.map('mapid').setView([49.6563, 18.8902], 14);
-    Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    if (this.map == null) {
+      this.markers = [];
+      this.map = Leaflet.map('mapid').setView([49.6563, 18.8902], 14);
+      Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
+    }
+    this.routeService.getRouteByID(this.selectedAnnouncement.route)
+      .subscribe(data => {
+        this.drawRoutes(data);
+      });
+  }
+
+  drawRoutes(data) {
+      const pointsString = data.points.toString().split(',');
+      const pointsList = [];
+      for (let j = 0; j < pointsString.length - 1; j++) {
+        pointsList.push(new Leaflet.LatLng(parseFloat(pointsString[j]), parseFloat(pointsString[j + 1])));
+        j++;
+      }
+      console.log(pointsList);
+      this.addPoly(pointsList, data.distance);
+      this.addMarker(pointsList[0]);
+      this.addMarker(pointsList[pointsList.length - 1]);
+  }
+
+  addMarker(point) {
+    const marker = new Leaflet.Marker(point, {
+      opacity: 0.75
+    }).addTo(this.map);
+    this.markers.push(marker);
+  }
+
+  addPoly(pointsList, distance) {
+    const poly = new Leaflet.Polyline(pointsList, {
+      color: 'blue',
+      weight: 7,
+      opacity: 0.75,
+      smoothFactor: 1
+    });
+    poly.bindTooltip('Distance: ' + distance + ' meters');
+    poly.addTo(this.map);
+    this.map.fitBounds(poly.getBounds());
+    this.polyline = poly;
+  }
+
+  clearMap() {
+    this.map.removeLayer(this.polyline);
+    for (let i = 0; i < this.markers.length; i++) {
+      this.map.removeLayer(this.markers[i]);
+    }
+    this.polyline = null;
+    this.markers = [];
   }
 }
 
