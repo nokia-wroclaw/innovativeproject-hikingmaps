@@ -2,6 +2,7 @@ package com.example.hikingmaps_spring.route;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Route {
@@ -9,6 +10,7 @@ public class Route {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
     private long id;
+    @Size(max=1000)
     private String points;
     private String distance;
 

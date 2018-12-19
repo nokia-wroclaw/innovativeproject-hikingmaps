@@ -47,4 +47,7 @@ export class UserService {
     const decodedJwtData = JSON.parse(decodedJwtJsonData);
     return decodedJwtData.admin;
   }
+  public logoutUser() {
+    this.auth.dropKey();
+  }
 }

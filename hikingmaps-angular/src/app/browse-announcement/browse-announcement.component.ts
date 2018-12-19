@@ -323,7 +323,7 @@ export class BrowseAnnouncementComponent implements OnInit {
         label: 'User',
         icon: 'pi pi-fw pi-user',
         items: [
-          {label: 'Logout', icon: 'pi pi-fw pi-user', command: (onclick) => {this.router.navigate(['/login']); } },
+          {label: 'Logout', icon: 'pi pi-fw pi-user', command: (onclick) => {this.userService.logoutUser(); this.router.navigate(['/login']); } },
         ]
       },
       {
