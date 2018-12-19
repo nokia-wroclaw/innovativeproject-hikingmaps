@@ -41,4 +41,10 @@ export class UserService {
       });
     return newObservable;
   }
+  public isAdmin() {
+    const jwtData = this.auth.getKey().split('.')[1];
+    const decodedJwtJsonData = window.atob(jwtData);
+    const decodedJwtData = JSON.parse(decodedJwtJsonData);
+    return decodedJwtData.admin;
+  }
 }

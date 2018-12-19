@@ -5,6 +5,7 @@ import {MenuItem, MessageService} from 'primeng/api';
 import { Router } from '@angular/router';
 import * as Leaflet from 'leaflet';
 import {HttpClient} from '@angular/common/http';
+import {UserService} from '../user.service';
 
 @Component({
   selector: 'app-add-route',
@@ -17,71 +18,19 @@ export class RouteComponent implements OnInit {
     private http: HttpClient,
     private routeService: RouteService,
     private messageService: MessageService,
+    private userService: UserService,
     private router: Router
   ) { }
 
+  private map;
   private drawnItems;
   items: MenuItem[];
   routes: Route[];
 
   ngOnInit() {
+    this.initNavbar();
     this.getAllRoutes();
-
-    this.items = [
-      {
-        label: 'User',
-        icon: 'pi pi-fw pi-user',
-        items: [
-          {label: 'Logout', icon: 'pi pi-fw pi-user', command: (onclick) => {this.router.navigate(['/login']); } },
-        ]
-      },
-      {
-        label: 'Announcement',
-        icon: 'pi pi-fw pi-pencil',
-        items: [
-          {label: 'Browse', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/browse']); }},
-          {label: 'Add', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/add']); } },
-        ]
-      },
-      {
-        label: 'Admin',
-        icon: 'pi pi-fw pi-key',
-        items: [
-          {label: 'Add route', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/routes']); }}
-        ]
-      }
-    ];
-
-    const map = Leaflet.map('mapid').setView([49.6563, 18.8902], 14);
-    Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-    this.drawnItems = new Leaflet.FeatureGroup();
-    map.addLayer(this.drawnItems);
-
-    const drawControl = new Leaflet.Control.Draw({
-      draw: {
-        polyline: {
-          shapeOptions: {
-            color: '#ff0000'
-          }
-        },
-        polygon: false,
-        rectangle: false,
-        circle: false,
-        marker: false,
-        circlemarker: false
-      },
-      edit: {
-        featureGroup: this.drawnItems
-      }
-    });
-
-    drawControl.addTo(map);
-
-    map.on('draw:created', (e: any) => {
-      const layer = e.layer;
-      this.drawnItems.addLayer(layer);
-    });
+    this.initMap();
   }
 
   public getPoints() {
@@ -156,4 +105,65 @@ export class RouteComponent implements OnInit {
     this.printInConsole();
   }
 
+  initNavbar() {
+    this.items = [
+      {
+        label: 'User',
+        icon: 'pi pi-fw pi-user',
+        items: [
+          {label: 'Logout', icon: 'pi pi-fw pi-user', command: (onclick) => {this.router.navigate(['/login']); } },
+        ]
+      },
+      {
+        label: 'Announcement',
+        icon: 'pi pi-fw pi-pencil',
+        items: [
+          {label: 'Browse', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/browse']); }},
+          {label: 'Add', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/add']); } },
+        ]
+      }
+    ];
+    if (this.userService.isAdmin()) {
+      this.items.push({
+        label: 'Admin',
+        icon: 'pi pi-fw pi-key',
+        items: [
+          {label: 'Add route', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/routes']); }}
+        ]
+      });
+    }
+  }
+  
+  initMap() {
+    this.map = Leaflet.map('mapid').setView([49.6563, 18.8902], 14);
+    Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
+
+    this.drawnItems = new Leaflet.FeatureGroup();
+    this.map.addLayer(this.drawnItems);
+
+    const drawControl = new Leaflet.Control.Draw({
+      draw: {
+        polyline: {
+          shapeOptions: {
+            color: '#ff0000'
+          }
+        },
+        polygon: false,
+        rectangle: false,
+        circle: false,
+        marker: false,
+        circlemarker: false
+      },
+      edit: {
+        featureGroup: this.drawnItems
+      }
+    });
+
+    drawControl.addTo(this.map);
+
+    this.map.on('draw:created', (e: any) => {
+      const layer = e.layer;
+      this.drawnItems.addLayer(layer);
+    });
+  }
 }

@@ -23,13 +23,7 @@ export class LoginComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.items = [
-      {
-        label: 'Register',
-        icon: 'pi pi-fw pi-user',
-        command: (onclick) => {this.router.navigate(['/register']); }
-      }
-    ];
+    this.initNavbar();
   }
 
   handleSubmit() {
@@ -45,4 +39,13 @@ export class LoginComponent implements OnInit {
       });
   }
 
+  initNavbar() {
+    this.items = [
+      {
+        label: 'Register',
+        icon: 'pi pi-fw pi-user',
+        command: (onclick) => {this.router.navigate(['/register']); }
+      }
+    ];
+  }
 }

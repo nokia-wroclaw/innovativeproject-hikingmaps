@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import {SelectItem} from 'primeng/api';
 import * as Leaflet from 'leaflet';
 import {RouteService} from '../route.service';
+import {UserService} from '../user.service';
 
 
 @Component({
@@ -65,44 +66,20 @@ export class BrowseAnnouncementComponent implements OnInit {
     private announcementService: AnnouncementService,
     private messageService: MessageService,
     private routeService: RouteService,
+    private userService: UserService,
     private router: Router
   ) { }
 
 
   ngOnInit() {
     this.getAllAnnouncements();
-
+    this.initNavbar();
 
     this.displayTypes = [
 
       {label: 'All', icon: 'pi pi-fw pi-search', value: { command: (onclick) => {this.getAllAnnouncements(); }}},
       {label: 'Interesting', icon: 'pi pi-fw pi-users', value: { command: (onclick) => {this.getInterestingAnnouncements(); }}},
       {label: '\u0020 My', icon: 'pi pi-fw pi-home', value: { command: (onclick) => {this.getMyAnnouncements(); }}},
-    ];
-
-    this.items = [
-      {
-        label: 'User',
-        icon: 'pi pi-fw pi-user',
-        items: [
-          {label: 'Logout', icon: 'pi pi-fw pi-user', command: (onclick) => {this.router.navigate(['/login']); } },
-        ]
-      },
-      {
-        label: 'Announcement',
-        icon: 'pi pi-fw pi-pencil',
-        items: [
-          {label: 'Browse', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/browse']); }},
-          {label: 'Add', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/add']); } },
-        ]
-      },
-      {
-        label: 'Admin',
-        icon: 'pi pi-fw pi-key',
-        items: [
-          {label: 'Add route', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/routes']); }}
-        ]
-      }
     ];
 
     this.sortOptions = [
@@ -338,6 +315,35 @@ export class BrowseAnnouncementComponent implements OnInit {
     }
     this.polyline = null;
     this.markers = [];
+  }
+
+  initNavbar() {
+    this.items = [
+      {
+        label: 'User',
+        icon: 'pi pi-fw pi-user',
+        items: [
+          {label: 'Logout', icon: 'pi pi-fw pi-user', command: (onclick) => {this.router.navigate(['/login']); } },
+        ]
+      },
+      {
+        label: 'Announcement',
+        icon: 'pi pi-fw pi-pencil',
+        items: [
+          {label: 'Browse', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/browse']); }},
+          {label: 'Add', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/add']); } },
+        ]
+      }
+    ];
+    if (this.userService.isAdmin()) {
+      this.items.push({
+        label: 'Admin',
+        icon: 'pi pi-fw pi-key',
+        items: [
+          {label: 'Add route', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/routes']); }}
+        ]
+      });
+    }
   }
 }
 

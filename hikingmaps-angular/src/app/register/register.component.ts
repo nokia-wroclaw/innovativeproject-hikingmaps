@@ -31,13 +31,7 @@ export class RegisterComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.items = [
-      {
-        label: 'Login',
-        icon: 'pi pi-fw pi-user',
-        command: (onclick) => {this.router.navigate(['/login']); }
-      }
-    ];
+    this.initNavbar();
   }
 
   handleSubmit() {
@@ -95,4 +89,13 @@ export class RegisterComponent implements OnInit {
     this.goodConfirm = this.passwordConfirm === this.password;
   }
 
+  initNavbar() {
+    this.items = [
+      {
+        label: 'Login',
+        icon: 'pi pi-fw pi-user',
+        command: (onclick) => {this.router.navigate(['/login']); }
+      }
+    ];
+  }
 }
