@@ -124,16 +124,28 @@ export class RouteComponent implements OnInit {
   }
 
   handleSubmit() {
-    this.routeService.addRoute( this.getPoints(), this.getDistance() )
-      .subscribe(() => {
-        this.messageService.add({ severity: 'success', summary: 'Succes', detail: 'Route added succesfully' });
-        this.router.navigate(['/browse']);
-        // send message about succes and reroute
-      }, (error) => {
-        // send message about error
-        this.messageService.add({ severity: 'error', summary: 'Error',
-          detail: (error.error.message) ? error.error.message : error.statusText });
+    if (this.drawnItems.getLayers().length === 0) {
+      this.messageService.add({
+        severity: 'error', summary: 'Error',
+        detail: 'First draw a path and click "Finish"'
       });
+    } else {
+      this.routeService.addRoute(this.getPoints(), this.getDistance())
+        .subscribe(() => {
+          this.messageService.add({
+            severity: 'success', summary: 'Succes',
+            detail: 'Route added succesfully'
+          });
+          this.router.navigate(['/browse']);
+          // send message about succes and reroute
+        }, (error) => {
+          // send message about error
+          this.messageService.add({
+            severity: 'error', summary: 'Error',
+            detail: (error.error.message) ? error.error.message : error.statusText
+          });
+        });
+    }
 
     this.printInConsole();
   }

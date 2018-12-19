@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/admin/route")
-public class RouteController {
+class RouteController {
     private RouteService service;
 
     @Autowired
@@ -21,6 +21,11 @@ public class RouteController {
     @GetMapping("/all")
     public ResponseEntity<List<Route>> getAll() {
         return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/getByID")
+    public ResponseEntity<Route> getRouteByID(@RequestParam("routeId") long routeId) {
+        return new ResponseEntity<>(service.getRouteByID(routeId), HttpStatus.OK);
     }
 
     @PostMapping("/add")
@@ -39,6 +44,29 @@ public class RouteController {
     public ResponseEntity<Void> deleteRoute(Authentication authentication, @RequestParam("routeId") long routeId) {
         service.deleteRoute(authentication.getName(), routeId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+}
+
+@RestController
+@RequestMapping("/sec/route")
+class RouteControllerUser {
+    private RouteService service;
+
+    @Autowired
+    public RouteControllerUser(RouteService service) {
+        this.service = service;
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Route>> getAll() {
+        return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
+    }
+
+
+    @GetMapping("/getByID")
+    public ResponseEntity<Route> getRouteByID(@RequestParam("routeId") long routeId) {
+        return new ResponseEntity<>(service.getRouteByID(routeId), HttpStatus.OK);
     }
 
 }

@@ -16,7 +16,12 @@ export class RouteService {
 
   getAllRoutes() {
     const key = this.auth.getKey();
-    return this.http.get<Route[]>(`${environment.apiUrl}/admin/route/all`, { headers: { 'authorization': key } });
+    return this.http.get<Route[]>(`${environment.apiUrl}/sec/route/all`, { headers: { 'authorization': key } });
+  }
+
+  getRouteByID(id: string) {
+    const key = this.auth.getKey();
+    return this.http.get<Route>(`${environment.apiUrl}/sec/route//getByID?routeId=${id}`, { headers: { 'authorization': key } });
   }
 
   public addRoute(points: string, distance: string) {

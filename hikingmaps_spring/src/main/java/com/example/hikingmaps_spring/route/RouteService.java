@@ -37,6 +37,21 @@ public class RouteService {
         return routeList;
     }
 
+    public Optional<Route> getRouteByID_(long routeId) {
+        if(repository.existsById(routeId)) {
+            Optional<Route> route = repository.findById(routeId);
+            return route;
+        } else {
+            throw new RouteDoesntExistException();
+        }
+    }
+
+    public Route getRouteByID(long routeId) {
+        Optional<Route> optRoute = repository.findById(routeId);
+        Route route = optRoute.orElseThrow(RouteDoesntExistException::new);
+        return route;
+    }
+
     public void addRoute(String modifier, Route route) {
         User user = userService.getByLogin(modifier).orElseThrow(UserDoesntExistException::new);
         if(user.isAdmin()) {
