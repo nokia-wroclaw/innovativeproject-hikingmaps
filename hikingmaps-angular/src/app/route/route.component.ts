@@ -102,7 +102,7 @@ export class RouteComponent implements OnInit {
         });
     }
 
-    this.printInConsole();
+    //this.printInConsole();
   }
 
   initNavbar() {
