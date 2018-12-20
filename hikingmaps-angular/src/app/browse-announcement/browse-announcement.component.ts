@@ -5,6 +5,8 @@ import {MenuItem, MessageService} from 'primeng/api';
 import { Router } from '@angular/router';
 import {SelectItem} from 'primeng/api';
 import * as Leaflet from 'leaflet';
+import {RouteService} from '../route.service';
+import {UserService} from '../user.service';
 import * as moment from 'moment';
 
 
@@ -14,12 +16,6 @@ import * as moment from 'moment';
   styleUrls: ['./browse-announcement.component.css']
 })
 export class BrowseAnnouncementComponent implements OnInit {
-
-  constructor(
-    private announcementService: AnnouncementService,
-    private messageService: MessageService,
-    private router: Router
-  ) { }
 
   announcements: Announcement[];
 
@@ -57,37 +53,27 @@ export class BrowseAnnouncementComponent implements OnInit {
 
   showStatus: boolean; // show acceptance status button (only show when accepted)
 
-  displayMaps() {
-    const map = Leaflet.map('mapid').setView([49.6563, 18.8902], 14);
-    Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-  }
+  private map;
+  private polyline;
+  private markers;
+
+  constructor(
+    private announcementService: AnnouncementService,
+    private messageService: MessageService,
+    private routeService: RouteService,
+    private userService: UserService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.getAllAnnouncements();
+    this.initNavbar();
 
     this.displayTypes = [
 
-      {label: 'All', icon: 'pi pi-fw pi-question', value: { command: (onclick) => {this.getAllAnnouncements(); }}},
-      {label: 'Interesting', icon: 'pi pi-fw pi-question', value: { command: (onclick) => {this.getInterestingAnnouncements(); }}},
-      {label: 'My', icon: 'pi pi-fw pi-question', value: { command: (onclick) => {this.getMyAnnouncements(); }}},
-    ];
-
-    this.items = [
-      {
-        label: 'User',
-        icon: 'pi pi-fw pi-user',
-        items: [
-          {label: 'Login', icon: 'pi pi-fw pi-question', command: (onclick) => {this.router.navigate(['/login']); } },
-          {label: 'Register', icon: 'pi pi-fw pi-question', command: (onclick) => {this.router.navigate(['/register']); } }
-        ]
-      },
-      {
-        label: 'Announcement',
-        icon: 'pi pi-fw pi-pencil',
-        items: [
-          {label: 'Add', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/add']); } },
-        ]
-      }
+      {label: 'All', icon: 'pi pi-fw pi-search', value: { command: (onclick) => {this.getAllAnnouncements(); }}},
+      {label: 'Interesting', icon: 'pi pi-fw pi-users', value: { command: (onclick) => {this.getInterestingAnnouncements(); }}},
+      {label: '\u0020 My', icon: 'pi pi-fw pi-home', value: { command: (onclick) => {this.getMyAnnouncements(); }}},
     ];
 
     this.sortOptions = [
@@ -186,12 +172,14 @@ export class BrowseAnnouncementComponent implements OnInit {
 
   onDialogHide() {
     this.selectedAnnouncement = null;
+    this.clearMap();
   }
 
   selectAsInterested(announcemnt: Announcement) {
     this.announcementService.addInterest(announcemnt.id)
       .subscribe(() => {
       this.messageService.add({ severity: 'success', summary: 'Succes', detail: 'Iterested succesfully' });
+      this.router.navigate(['/browse']);
       // send message about succes
     }, (error) => {
       // send message about error
@@ -202,10 +190,8 @@ export class BrowseAnnouncementComponent implements OnInit {
 
   handleChanges() {
     const convDate = moment(this.selectedAnnouncement.date, 'DD-MM-YYYY HH:mm').format('YYYY-MM-DDTHH:mm:ssZ');
-    console.log(convDate);
     this.announcementService.changeMyAnnouncement(this.selectedAnnouncement.id, this.selectedAnnouncement.title,
-      this.selectedAnnouncement.start, this.selectedAnnouncement.destination, this.selectedAnnouncement.description,
-      convDate)
+      this.selectedAnnouncement.start, this.selectedAnnouncement.destination, this.selectedAnnouncement.route, convDate, this.selectedAnnouncement.description)
       .subscribe(() => {
         this.messageService.add({ severity: 'success', summary: 'Succes', detail: 'Announcement changed succesfully' });
       }, (error) => {
@@ -245,6 +231,88 @@ export class BrowseAnnouncementComponent implements OnInit {
         });
     }
     this.displayDialogInterest = false;
+  }
+
+  displayMaps() {
+    if (this.map == null) {
+      this.markers = [];
+      this.map = Leaflet.map('mapid').setView([49.6563, 18.8902], 14);
+      Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
+    }
+    this.routeService.getRouteByID(this.selectedAnnouncement.route)
+      .subscribe(data => {
+        this.drawRoutes(data);
+      });
+  }
+
+  drawRoutes(data) {
+      const pointsString = data.points.toString().split(',');
+      const pointsList = [];
+      for (let j = 0; j < pointsString.length - 1; j++) {
+        pointsList.push(new Leaflet.LatLng(parseFloat(pointsString[j]), parseFloat(pointsString[j + 1])));
+        j++;
+      }
+      this.addPoly(pointsList, data.distance);
+      this.addMarker(pointsList[0]);
+      this.addMarker(pointsList[pointsList.length - 1]);
+  }
+
+  addMarker(point) {
+    const marker = new Leaflet.Marker(point, {
+      opacity: 0.75
+    }).addTo(this.map);
+    this.markers.push(marker);
+  }
+
+  addPoly(pointsList, distance) {
+    const poly = new Leaflet.Polyline(pointsList, {
+      color: 'blue',
+      weight: 7,
+      opacity: 0.75,
+      smoothFactor: 1
+    });
+    poly.bindTooltip('Distance: ' + distance + ' meters');
+    poly.addTo(this.map);
+    this.map.fitBounds(poly.getBounds());
+    this.polyline = poly;
+  }
+
+  clearMap() {
+    this.map.removeLayer(this.polyline);
+    for (let i = 0; i < this.markers.length; i++) {
+      this.map.removeLayer(this.markers[i]);
+    }
+    this.polyline = null;
+    this.markers = [];
+  }
+
+  initNavbar() {
+    this.items = [
+      {
+        label: 'User',
+        icon: 'pi pi-fw pi-user',
+        items: [
+          {label: 'Logout', icon: 'pi pi-fw pi-user', command: (onclick) => {this.userService.logoutUser(); this.router.navigate(['/login']); } },
+        ]
+      },
+      {
+        label: 'Announcement',
+        icon: 'pi pi-fw pi-pencil',
+        items: [
+          {label: 'Browse', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/browse']); }},
+          {label: 'Add', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/add']); } },
+        ]
+      }
+    ];
+    if (this.userService.isAdmin()) {
+      this.items.push({
+        label: 'Admin',
+        icon: 'pi pi-fw pi-key',
+        items: [
+          {label: 'Add route', icon: 'pi pi-fw pi-plus', command: (onclick) => {this.router.navigate(['/routes']); }}
+        ]
+      });
+    }
   }
 }
 

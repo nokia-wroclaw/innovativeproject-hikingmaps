@@ -20,6 +20,7 @@ public class Announcement {
 	private String title;
 	private String start;
 	private String destination;
+	private String route;
 	private String description;
 	private Date date;
 
@@ -27,11 +28,12 @@ public class Announcement {
 
 	}
 
-	public Announcement(long id, String title, String start, String destination, String description, Date date) {
+	public Announcement(long id, String title, String start, String destination, String route, String description, Date date) {
 		this.id = id;
 		this.title = title;
 		this.start = start;
 		this.destination = destination;
+		this.route = route;
 		this.description = description;
 		this.date = date;
 	}
@@ -41,6 +43,7 @@ public class Announcement {
 		this.title = announcement.title;
 		this.start = announcement.start;
 		this.destination = announcement.destination;
+		this.route = announcement.route;
 		this.description = announcement.description;
 		this.date = announcement.date;
 	}
@@ -65,6 +68,10 @@ public class Announcement {
 		return description;
 	}
 
+	public String getRoute() {
+		return route;
+	}
+
 	public Date getDate() {
 		return date;
 	}
@@ -83,6 +90,10 @@ public class Announcement {
 
 	public void setDestination(String destination) {
 		this.destination = destination;
+	}
+
+	public void setRoute(String route) {
+		this.route = route;
 	}
 
 	public void setDescription(String description) {

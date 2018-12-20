@@ -1,0 +1,9 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.10/leaflet.draw.css"/>
+<p-menubar [model]="items"></p-menubar>
+<div class="content">
+  <div [ngClass]="'main'">
+    <h1>Add new route</h1>
+    <div id="mapid"></div>
+    <button pButton type="button" label="Add" (click)="sendRoute()"></button>
+  </div>
+</div>

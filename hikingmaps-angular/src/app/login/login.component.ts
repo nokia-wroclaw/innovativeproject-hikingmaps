@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
-import { MessageService } from 'primeng/api';
+import {MenuItem, MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +13,9 @@ export class LoginComponent implements OnInit {
   public username = '';
   public password = '';
 
+  items: MenuItem[];
+
+
   constructor(
     private userService: UserService,
     private messageService: MessageService,
@@ -20,6 +23,7 @@ export class LoginComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+    this.initNavbar();
   }
 
   handleSubmit() {
@@ -35,4 +39,13 @@ export class LoginComponent implements OnInit {
       });
   }
 
+  initNavbar() {
+    this.items = [
+      {
+        label: 'Register',
+        icon: 'pi pi-fw pi-user',
+        command: (onclick) => {this.router.navigate(['/register']); }
+      }
+    ];
+  }
 }
