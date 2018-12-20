@@ -42,7 +42,7 @@ export class RouteComponent implements OnInit {
         paths.push(latLngs[i].lng);
       }
     });
-    console.log(paths.toString());
+
     return paths.toString();
   }
 
@@ -50,7 +50,6 @@ export class RouteComponent implements OnInit {
     let distance = 0.0;
     this.drawnItems.eachLayer(function (layer: any) {
       const latLngs = layer.getLatLngs();
-      console.log(latLngs);
       for (let i = 0; i < latLngs.length - 1; i++) {
         distance += latLngs[i].distanceTo(latLngs[i + 1]);
       }
@@ -101,8 +100,6 @@ export class RouteComponent implements OnInit {
           });
         });
     }
-
-    //this.printInConsole();
   }
 
   initNavbar() {

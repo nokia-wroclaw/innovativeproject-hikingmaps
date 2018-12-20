@@ -84,7 +84,6 @@ export class AddAnnouncementComponent implements OnInit {
   drawRoutes() {
     for (let i = 0; i < this.routes.length; i++) {
       const pointsString = this.routes[i].points.toString().split(',');
-      console.log(pointsString);
       const pointsList = [];
       for (let j = 0; j < pointsString.length - 1; j++) {
         pointsList.push(new Leaflet.LatLng(parseFloat(pointsString[j]), parseFloat(pointsString[j + 1])));

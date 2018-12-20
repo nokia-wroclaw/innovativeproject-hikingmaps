@@ -7,4 +7,5 @@ export interface Announcement {
     route;
     date;
     status;
+    interested;
 }
