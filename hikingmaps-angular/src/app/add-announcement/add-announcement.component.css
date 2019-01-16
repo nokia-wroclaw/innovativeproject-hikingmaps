@@ -59,3 +59,11 @@ body {
   border: none;
   box-shadow: 0 2px #999;
 }
+
+#mapid {
+  height: 600px;
+  width: 600px;
+  position: relative;
+  margin: auto;
+  margin-bottom: 20px;
+}

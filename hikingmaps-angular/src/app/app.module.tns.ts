@@ -10,6 +10,8 @@ import { NativeScriptFormsModule } from 'nativescript-angular/forms';
 
 
 import { AppComponent } from './app.component';
+import { EditRoutesComponent } from './edit-routes/edit-routes.component';
+import { RouteComponent } from './route/route.component';
 
 
 @NgModule({
@@ -18,7 +20,9 @@ import { AppComponent } from './app.component';
     RegisterComponent,
     LoginComponent,
     BrowseAnnouncementComponent,
-    AddAnnouncementComponent
+    AddAnnouncementComponent,
+    EditRoutesComponent,
+    RouteComponent
   ],
   imports: [
     NativeScriptModule,

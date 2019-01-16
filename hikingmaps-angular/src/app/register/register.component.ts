@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
 import { Component, OnInit } from '@angular/core';
-import { MessageService } from 'primeng/api';
+import {MenuItem, MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-register',
@@ -19,6 +19,8 @@ export class RegisterComponent implements OnInit {
   public passwordConfirm = '';
   public goodConfirm = true;
 
+  items: MenuItem[];
+
   // tslint:disable-next-line:max-line-length
   private emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -29,6 +31,7 @@ export class RegisterComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.initNavbar();
   }
 
   handleSubmit() {
@@ -86,4 +89,13 @@ export class RegisterComponent implements OnInit {
     this.goodConfirm = this.passwordConfirm === this.password;
   }
 
+  initNavbar() {
+    this.items = [
+      {
+        label: 'Login',
+        icon: 'pi pi-fw pi-user',
+        command: (onclick) => {this.router.navigate(['/login']); }
+      }
+    ];
+  }
 }

@@ -4,5 +4,8 @@ export interface Announcement {
     description;
     start;
     destination;
+    route;
     date;
+    status;
+    interested;
 }
