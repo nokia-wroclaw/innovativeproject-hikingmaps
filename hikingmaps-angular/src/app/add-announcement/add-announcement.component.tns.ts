@@ -28,7 +28,7 @@ export class AddAnnouncementComponent implements OnInit {
   }
 
   handleAdd() {
-    this.announcementService.addAnnouncement(this.title, this.start, this.dest, this.description, this.date)
+    this.announcementService.addAnnouncement(this.title, this.start, this.dest, '', this.date, this.description)
       .subscribe(() => {
         this.router.navigate(['/browse']);
       }, () => {
