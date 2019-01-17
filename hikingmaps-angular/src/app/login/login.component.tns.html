@@ -1,8 +1,8 @@
-<StackLayout>
+<StackLayout class="page">
   <Label class="title" text="Sign in" ></Label>
-  <Label text="Username"></Label>
-  <TextField autofocus required [(ngModel)]="username"></TextField>
-  <Label text="Password"></Label>
-  <TextField secure="true" required [(ngModel)]="password"></TextField>
-  <Button text="Submit" (tap)="handleSubmit()"></Button>
+  <Label class="label" text="Username"></Label>
+  <TextField class="input-rounded" autofocus required [(ngModel)]="username"></TextField>
+  <Label class="label" text="Password"></Label>
+  <TextField class="input" secure="true" required [(ngModel)]="password"></TextField>
+  <Button class="btn btn-primary" text="Submit" (tap)="handleSubmit()"></Button>
 </StackLayout>
